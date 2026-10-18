@@ -1,34 +1,36 @@
-# NOME-DO-SISTEMA · Sistema de design do app NOME-DO-APP
+# Fatia Design System · Sistema de design do app FatiaMática
 
-> Versão: 1.0.0 (rascunho) · Grupo: TODO: nomes dos integrantes · Disciplinas: IHC e PDM · IFPI Piripiri
->
-> Como usar este kit: copie esta pasta para a raiz do repositório do trabalho final, apague os comentários `<!-- ... -->` e substitua todo `TODO:`. Nomes de arquivo e de seção não mudam.
+> Versão: 1.0.0 · Grupo: Nilson Rodrigo, Ana Rosa e Wesley Tiago · Disciplinas: IHC e PDM · IFPI Piripiri
 
 ## 1. Visão geral
 
-TODO: em 2 ou 3 frases, diga o que é o app, quem usa e que sensação o sistema de design deve transmitir.
+O FatiaMática é um aplicativo educacional voltado a estudantes do 6º ano do Ensino Fundamental para apoiar a aprendizagem de frações por meio de representações visuais e atividades interativas com pizzas. O Fatia Design System busca proporcionar uma experiência clara, educativa e amigável, utilizando elementos lúdicos sem comprometer a compreensão do conteúdo matemático.
 
-- **App:** TODO
-- **Plataforma e stack:** TODO (ex.: Android com React Native + Expo; iOS com SwiftUI; Flutter)
-- **Sistema base:** TODO (Material 3, Apple HIG ou Fluent 2)
+- **App:** FatiaMática
+- **Plataforma e stack:** Android com React Native + TypeScript + Expo (stack planejada para a implementação futura)
+- **Sistema base:** Google Material Design 3
 
 ## 2. Por que este sistema base (as cinco forças)
 
 | Força | Justificativa em uma linha |
 | --- | --- |
-| Usuários | TODO: heurísticas e modelos mentais do público do app |
-| Acessibilidade | TODO: o que o sistema base já garante e o que acrescentamos |
-| Marca | TODO: identidade e personalidade do app |
-| Plataforma | TODO: Android, iOS, Web ou Desktop |
-| Tecnologia | TODO: como tokens e componentes viram código na nossa stack |
+| Usuários | Estudantes do 6º ano precisam reconhecer rapidamente o que fazer e relacionar a representação numérica das frações às representações visuais, reduzindo ações e informações desnecessárias durante as atividades. |
+| Acessibilidade | O Material Design 3 fornece uma base de diretrizes e componentes acessíveis; o Fatia Design System acrescenta requisitos explícitos de contraste, alvo mínimo de toque de 48 dp, identificação para leitores de tela e comunicação que não dependa somente de cores. |
+| Marca | O FatiaMática combina uma identidade educativa e lúdica com uma interface simples e amigável, usando a pizza principalmente como recurso de representação matemática, e não apenas como decoração. |
+| Plataforma | Android, utilizando o Material Design 3 como base para componentes e padrões de interação. |
+| Tecnologia | A implementação futura será feita com React Native, TypeScript e Expo. Os tokens e componentes documentados no Design System deverão orientar sua representação no código, evitando valores visuais arbitrários. |
 
 ## 3. Inventário: telas × componentes
 
-<!-- Etapa 1 da aula. Liste as telas do app e os componentes que cada uma usa. -->
 
 | Tela | Componentes necessários |
 | --- | --- |
-| TODO: Login | TODO: campo de texto, botão |
+| Boas-vindas | Botão principal |
+| Início | Cards de atividades, barra de navegação |
+| Monte sua pizza | Pizza de frações interativa, representação numérica da fração, botão principal, feedback de aprendizagem, indicador de progresso |
+| Compare as pizzas | Pizzas de frações para comparação, representação numérica das frações, Radio Buttons Material 3 para seleção única, feedback de aprendizagem |
+| Frações equivalentes | Pizzas de frações equivalentes, representação numérica das frações, Radio Buttons Material 3 para seleção única, feedback de aprendizagem, indicador de progresso |
+| Meu progresso | Indicador de progresso, cards de atividades, barra de navegação |
 
 ## 4. Mapa dos arquivos
 
@@ -38,7 +40,7 @@ TODO: em 2 ou 3 frases, diga o que é o app, quem usa e que sensação o sistema
 | [02-tokens.md](02-tokens.md) | Tokens primitivos, semânticos e de componente |
 | [03-fundamentos.md](03-fundamentos.md) | Regras de cor, tipografia, espaço, ícones, elevação e movimento |
 | [04-componentes/](04-componentes/) | Um arquivo por componente |
-| [05-padroes.md](05-padroes.md) | Fluxos: login, busca, formulário etc. |
+| [05-padroes.md](05-padroes.md) | Fluxos de resolução de atividades e acompanhamento de progresso |
 | [06-acessibilidade.md](06-acessibilidade.md) | Contraste, alvos de toque, foco, leitor de tela |
 | [07-teste-com-ia.md](07-teste-com-ia.md) | Validação do sistema com um assistente de IA |
 | [CHANGELOG.md](CHANGELOG.md) | Versões e mudanças |
@@ -53,22 +55,25 @@ Cada token, componente e regra traz uma etiqueta:
 
 ## 6. Glossário
 
-<!-- Use sempre o mesmo nome para a mesma coisa. -->
 
 | Termo | Significado |
 | --- | --- |
-| Token | Decisão de design com nome e valor (`color.action` → `#4F46E5`) |
-| TODO | TODO |
+| Token | Decisão de design com nome e valor (`color.action` → `#8C3900`) |
+| Componente | Elemento reutilizável da interface, definido pelo sistema de design com regras, estados e comportamento. |
+| Padrão | Solução reutilizável para organizar componentes em uma tarefa ou fluxo da interface. |
+| Herdado | Elemento utilizado conforme o sistema base, sem alteração. |
+| Adaptado | Elemento proveniente do sistema base que recebeu alterações justificadas para atender ao contexto do FatiaMática. |
+| Novo | Elemento que não existe no sistema base e foi criado para atender a uma necessidade específica do FatiaMática. |
 
 ## 7. Quem mantém
 
-- **Modelo de governança:** TODO (centralizado, federado ou híbrido) e por quê.
-- **Responsável por revisar mudanças:** TODO
-- **Como propor uma mudança:** TODO (ex.: pull request que altera o arquivo e o `CHANGELOG.md`)
+- **Modelo de governança:** Centralizado. Durante o desenvolvimento acadêmico, as mudanças no Fatia Design System são discutidas pela equipe e registradas de forma centralizada nos arquivos da pasta `design-system/`, evitando versões conflitantes das decisões de design.
+- **Responsável por revisar mudanças:** A equipe responsável pelo FatiaMática.
+- **Como propor uma mudança:** Criar uma alteração em branch própria, submetê-la para revisão da equipe e, quando aprovada, atualizar os arquivos afetados do Design System e registrar a mudança no `CHANGELOG.md`.
 
 ## 8. Uso de IA na redação
 
-TODO: declare se IA foi usada para redigir ou revisar estes arquivos, e em quais.
+Ferramentas de inteligência artificial foram utilizadas como apoio na organização, redação e revisão da documentação do Fatia Design System. As decisões de design são discutidas e validadas pela equipe, que permanece responsável pelo conteúdo final.
 
 ## 9. Instruções para assistentes de IA
 
