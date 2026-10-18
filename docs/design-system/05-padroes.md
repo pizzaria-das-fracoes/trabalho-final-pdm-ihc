@@ -39,7 +39,7 @@
   7. Preserve a escolha quando estiver incorreta e permita selecionar novamente e conferir outra tentativa.
 - **Composição e texto ampliado:** Em largura insuficiente ou com texto ampliado, empilhe as duas representações mantendo dimensões equivalentes. Não reduza arbitrariamente texto ou pizzas para forçar disposição lado a lado. Não defina breakpoint numérico. Use `space.md` nas margens, `space.sm` entre elementos relacionados e `space.lg` entre grupos, sem acrescentar valores visuais.
 - **Estados:** Aplique os estados Carregando, Erro, Vazio e Sucesso do padrão acima. A seleção da opção não é seleção de fatias; herde os estados do controle de seleção única e preserve a escolha nas tentativas incorretas.
-- **Recorte da versão 1.0.0:** O indicador de progresso não é obrigatório na tela “Compare as pizzas”. Ele permanece previsto no inventário, mas sua especificação está fora do recorte atual do Design System v1.0.0; a IA não deve inventar componente, aparência, tokens ou comportamento para ele.
+- **Recorte da versão 1.0.0:** O indicador de progresso não faz parte da tela “Compare as pizzas” no recorte atual do Design System v1.0.0; a IA não deve inventar componente, aparência, tokens ou comportamento para ele.
 
 ## Padrão 2: Acompanhar progresso
 
