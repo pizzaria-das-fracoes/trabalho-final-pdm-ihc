@@ -15,10 +15,10 @@ Por isso, este relatório cobre **somente o primeiro módulo de código** do apl
 | Campo | Valor |
 | --- | --- |
 | Comando | `npm test -- --coverage` |
-| Ferramentas | Jest 30.5.2, ts-jest 29.4.15, TypeScript 6.0.3, Node 22 (versões fixadas no `package-lock.json`) |
+| Ferramentas | Jest 30.5.2, ts-jest 29.4.15, TypeScript 6.0.3, Node 24.12.0 (versões das dependências fixadas no `package-lock.json`) |
 | Branch | `test/logica-fracoes` |
-| Commit (`git rev-parse --short HEAD`) | ____ |
-| Executado por, data e hora | ____ |
+| Commit (`git rev-parse --short HEAD`) | `6fbd6fe` |
+| Executado por, data e hora | Ana Rosa (AnaRosa2), 20/10/2026, registro dos commits às 21:28 |
 | Suítes e testes | 1 suíte, 28 testes, 28 aprovados |
 
 Saída do terminal:
