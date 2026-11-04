@@ -1,46 +1,18 @@
-# FatiaMática
+# FatiaMática — reinício controlado | fase 0: Harness e especificações
 
-Projeto final de **PDM** e **IHC** · IFPI Campus Piripiri · Análise e Desenvolvimento de Sistemas.
+**Estado: SOMENTE DOCUMENTAÇÃO E HARNESS. Não há aplicativo implementado neste ZIP.**
 
-Aplicativo Android educativo para apoiar estudantes do 6º ano na aprendizagem de frações por meio de representações visuais e atividades interativas com pizzas, em alinhamento conceitual com a BNCC EF06MA07.
+Fonte de origem: `trabalho-final-pdm-ihc(8).zip` (documentação original), confrontada com o pacote anterior `FatiaMatica_Expo_Corrigido.zip` e os erros relatados em Android. O design system original foi preservado em `docs/design-system/`; a proposta de evolução visual está separada e **não aprovada**.
 
-## Equipe
+## Ordem obrigatória
+1. Ler `AGENTS.md` e `docs/harness/00-estado-e-gates.md`.
+2. Ler `docs/engenharia/` (requisitos, casos de uso, testes e rastreabilidade BNCC).
+3. Aprovar visualmente os protótipos e os tokens propostos; não confundir proposta com decisão consolidada.
+4. Criar aplicativo novo **somente depois** da aprovação do gate G1. Expo + RN + TS + Expo Router, MVVM Sofisticado.
+5. Implementar uma atividade por vez, com testes e validação Android.
+6. Publicar apenas após os gates G2–G5 e teste em aparelho real.
 
-| Integrante |
-| --- |
-| Nilson Rodrigo |
-| Ana Rosa |
-| Wesley Tiago |
+## Como usar com qualquer IA
+> Leia AGENTS.md, docs/harness/00-estado-e-gates.md, docs/engenharia/README.md e docs/design-system/README.md. Informe o estado atual e o próximo gate. Não implemente código antes da autorização explícita. Antes de modificar arquivos, apresente plano e checklist; depois execute os verificadores e relate o que passou, falhou ou não foi executado.
 
-## Stack planejada
-
-A implementação futura do aplicativo está planejada para **React Native + TypeScript + Expo**, com foco inicial em Android. Backend, autenticação e persistência remota ainda não fazem parte do escopo atual e serão definidos na etapa de implementação.
-
-Login, cadastro, backend e ranking não fazem parte da versão 1.0.0 do Design System.
-
-## Estado atual
-
-O repositório está na etapa de **Design System**. O aplicativo ainda não foi inicializado, portanto não há comandos de instalação ou execução nesta versão.
-
-As decisões de interface têm como fonte de verdade o [Fatia Design System](docs/design-system/README.md).
-
-## Estrutura do repositório
-
-| Pasta ou arquivo | Conteúdo |
-| --- | --- |
-| `docs/design-system/` | Fatia Design System. Comece por [docs/design-system/README.md](docs/design-system/README.md) |
-| `docs/projeto/` | Documentação de requisitos, diagramas, arquitetura e relatório de PDM |
-| `.github/` | Modelo de pull request |
-| `AGENTS.md` | Contexto e regras para assistentes de IA que trabalhem no repositório |
-
-## Como contribuir
-
-1. Crie uma branch por funcionalidade, a partir da `main`.
-2. Nunca desenvolva direto na `main`.
-3. Abra um pull request e peça revisão de outro integrante.
-4. Na fase de implementação, faça merge de código somente após revisão, compilação e teste aplicáveis.
-5. Mudanças no Design System devem atualizar a documentação correspondente e, quando necessário, o `CHANGELOG.md`.
-
-## Segurança
-
-Nunca envie ao repositório senhas, tokens, chaves privadas nem o keystore de assinatura do app (`*.jks`, `*.keystore`).
+`python3 scripts/check_harness.py` valida a documentação. Não valida um aplicativo inexistente.

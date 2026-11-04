@@ -1,0 +1,17 @@
+{
+  "project": "FatiaMática",
+  "phase": "harness-only",
+  "appImplementationAllowed": false,
+  "designSystem": "docs/design-system",
+  "designProposal": "docs/design-proposta",
+  "architecture": "mvvm-sofisticado",
+  "requiredDocs": [
+    "docs/engenharia/requisitos.md",
+    "docs/engenharia/casos-de-uso.md",
+    "docs/engenharia/matriz-bncc.md",
+    "docs/harness/04-checklist-entrega.md"
+  ],
+  "requiredSkills": [
+    ".claude/skills/nova-atividade-bncc/SKILL.md"
+  ]
+}
