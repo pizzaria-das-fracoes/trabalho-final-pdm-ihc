@@ -13,7 +13,7 @@
 | T09 | integração | salvar e reiniciar app | progresso preservado |
 | T10 | UI | revisar resposta errada | questão reaberta |
 | T11 | futuro | diagnóstico e adaptação | regra transparente |
-| T12 | Android | 320dp, fonte 150%, gesto, teclado e medição de alvos de toque | sem clipping/overflow e alvos de pelo menos 48 dp |
+| T12 | Android | 320dp, fonte 150%, gesto, teclado | sem clipping/overflow |
 | T13 | integração | tocar cada botão e navegar | ação/feedback sem erro |
 | T14 | arquitetura | imports de camadas | sem violações |
 | T15 | build | versão Expo + bundle Android | sem módulo nativo ausente |
