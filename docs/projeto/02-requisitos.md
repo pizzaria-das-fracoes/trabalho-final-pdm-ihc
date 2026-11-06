@@ -129,7 +129,7 @@ Resumo dos valores de referência de [`criterios-de-aceite.md`](../engenharia/cr
 | --- | --- | --- | --- |
 | RNF01 | Compatibilidade Android com versão Expo/React Native alinhada por ferramenta oficial | T15 † | Planejado |
 | RNF02 | Nenhum controle interativo fora da área visível; verificar 320 dp e escala de fonte ampliada | CA10; T12 † | Planejado |
-| RNF03 | Alvos de toque de pelo menos 48 dp; contraste de texto normal ≥ 4,5:1 | T12 † (medição dos alvos ≥ 48 dp, planejada e não executada); contraste calculado em `docs/design-system/06-acessibilidade.md` | Planejado |
+| RNF03 | Alvos de toque de pelo menos 48 dp; contraste de texto normal ≥ 4,5:1 | T12 † (alvos); contraste calculado em `docs/design-system/06-acessibilidade.md` | Planejado |
 | RNF04 | Fluxo principal utilizável offline, com dados locais | CA09 (parcial) | Planejado |
 | RNF05 | Navegação sem rotas quebradas; botões com ação/feedback testados | CA10; T13 † | Planejado |
 | RNF06 | Testes unitários de operações com frações e de integração dos fluxos críticos | T01–T04, T06–T09 (conforme `plano-testes.md`) | Planejado |
@@ -182,7 +182,7 @@ As colunas Habilidade, RF, UC e Testes reproduzem [`matriz-bncc.md`](../engenhar
 1. **RF01** não tem caso de uso nem critério de aceitação associados.
 2. **RF02, RF12, RF13 e RF14** não têm critério de aceitação próprio.
 3. **RNF01, RNF03, RNF04, RNF06, RNF07 e RNF08** não têm critério de aceitação; CA10 cobre apenas RNF02 e RNF05, e CA09 cobre parcialmente RNF04.
-4. O plano de testes não registra ligações explícitas entre **T12 a T15** (Android, botões, arquitetura e build) e RNFs; as associações propostas nesta especificação, incluindo T12/RNF03, estão marcadas com †.
+4. **T12 a T15** (Android, botões, arquitetura e build) não estão ligados a nenhum RNF na documentação; as associações marcadas com † são propostas.
 5. **Retenção, redefinição e exclusão do progresso local** não estão especificadas.
 6. **Ordem de entrega** entre os RFs de prioridade alta não está definida.
 7. A **redação oficial das habilidades BNCC** ainda precisa ser validada com o documento oficial.
