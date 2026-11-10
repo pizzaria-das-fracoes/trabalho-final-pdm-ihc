@@ -1,6 +1,6 @@
 # Fatia Design System · Sistema de design do app FatiaMática
 
-> Versão: 1.0.0 · Grupo: Nilson Rodrigo, Ana Rosa e Wesley Tiago · Disciplinas: IHC e PDM · IFPI Piripiri
+> Versão: 1.0.0 · Grupo: Ana Rosa, Gisele Dias, Nilson Rodrigo, Wesley Tiago · Disciplinas: IHC e PDM · IFPI Piripiri
 
 ## 1. Visão geral
 
