@@ -1,11 +1,23 @@
-# Proposta visual — pendente de aprovação (não substitui Design System original)
+# Proposta de IHC e wireframes Android — Gate G1
 
-Direção: **Ateliê Matemático / Pizzaria das Frações**. Identidade própria, sem infantilizar: mascote original Fati como guia ocasional; pizzas grandes como representação matemática; menos cartões e menos texto por tela. **Material Design 3** como sistema base, mantendo as decisões originais até aprovação de mudanças.
+> **Status: proposta para revisão da equipe; não aprovada.** Estes documentos não substituem o Fatia Design System 1.0.0, não alteram requisitos de engenharia e não são uma implementação do aplicativo.
 
-**Layout Android:** usar `SafeAreaProvider`, insets e componentes flexíveis; conteúdo central rolável; rodapé/botão primário dentro da área segura; nunca posição absoluta para CTAs; limitar linhas de texto; testar 320dp, fonte ampliada, teclado, gestos.
+Esta rodada registra a divergência entre a paleta dos tokens existentes e a identidade Ateliê Matemático solicitada, detalha uma navegação Android proposta e apresenta dez wireframes originais, sem copiar telas, ilustrações ou código de outros produtos.
 
-**Telas:** Boas-vindas (marca e uma ação), Início (retomar e mundos), Aula (conceito + visual + próximo), Atividade (pizza/reta grande + uma instrução + controles), Feedback (explicação + tentar novamente), Progresso (habilidades + revisão). Elementos decorativos não competem com as frações.
+## Arquivos
 
-**Proposta de marca, a aprovar:** nome FatiaMática; assinatura 'Aprender é uma fatia de diversão'; mascote Fati; detalhes terracota/queijo/manjericão. Antes de trocar cores, verificar contraste e registrar token herdado/adaptado/novo, justificativa e testes. Não usar imagens aleatórias da internet como identidade definitiva.
+- [Navegação, fluxos, responsividade, estados e heurísticas de Nielsen](navegacao.md)
+- [Protótipo visual estático dos dez wireframes](prototipos-g1.html)
+- [Proposta de tokens e contraste — pendente de aprovação](../design-system/08-proposta-paleta-atelie.md)
 
-**Gate visual G1:** apresentar wireframes reais de 320dp e 393dp, estados de erro/acerto, navegação e comportamento com fonte ampliada; obter aprovação antes do código.
+## Como visualizar
+
+Abra `prototipos-g1.html` localmente em um navegador moderno. Escolha um dos dez nomes de tela e alterne entre as larguras documentais de **320 dp**, **393 dp** e **430 dp**. O conteúdo do quadro pode rolar verticalmente; cartões do mapa adaptam sua disposição. O protótipo funciona sem rede e não carrega bibliotecas, fontes ou imagens externas.
+
+O arquivo representa quadros de interface em CSS pixels, usados aqui como aproximação documental de dp em escala 1×. Isso permite inspecionar composição e quebras, mas **não certifica dimensões, densidade, insets, TalkBack, teclado ou comportamento em aparelho Android**. A navegação do protótipo só troca o quadro e a largura de prévia; os controles representados dentro dos quadros não executam o aplicativo.
+
+## Escopo visual
+
+Os nomes e o agrupamento dos mundos no mapa são propostas baseadas nos requisitos EF06MA07–10. A documentação original não nomeia os quatro mundos nem aprova essa divisão. Identidade, nomes, cores, textos de demonstração e escolhas de navegação precisam de validação da equipe.
+
+Os wireframes usam a paleta Ateliê como **amostra visual não aprovada**. Os tokens oficiais e a tabela de acessibilidade vigentes permanecem sem substituição até uma decisão formal e uma revisão dos pares de contraste.
