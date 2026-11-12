@@ -22,6 +22,8 @@ Os identificadores e vínculos abaixo são os dos documentos vigentes. A associa
 
 Rastreabilidade exigida: habilidade → RF → UC → CA → teste → evidência. A evidência atual limita-se ao que está especificado nos critérios e testes planejados; não há execução do app, capturas de tela ou validação com estudantes. CA08 é genérico para RF10 e não verifica separadamente a qualidade das explicações por habilidade. Assim, a matriz registra vínculos e lacunas, mas não declara cobertura pedagógica validada.
 
+O catálogo [cenarios-testes-matematicos.md](cenarios-testes-matematicos.md) detalha entradas e saídas exatas propostas para cobrir as lacunas. Seus IDs M01–M23 são cenários documentais, não testes T existentes nem evidência de execução automatizada; a tabela abaixo preserva os T já registrados.
+
 ## Mapeamento de referência para os quatro mundos
 
 Os nomes abaixo foram confirmados no escopo desta rodada. A distribuição e os objetivos são propostas pedagógicas, não decisões já aprovadas:
@@ -34,6 +36,7 @@ Os nomes abaixo foram confirmados no escopo desta rodada. A distribuição e os 
 | Mestres das Frações | EF06MA07–EF06MA10 | Praticar e explicar estratégias integradas, elaborar problemas válidos e conferir resultados em mais de uma representação. O nome não implica certificação de domínio. |
 
 Os mundos podem retomar habilidades anteriores; esta tabela não estabelece pré-requisitos rígidos nem ordem obrigatória.
+A auditoria de entradas, respostas esperadas, erros, feedback e critérios propostos por mundo está detalhada em [especificacao-pedagogica.md](especificacao-pedagogica.md).
 
 ## Propostas de atualização para integração posterior
 
