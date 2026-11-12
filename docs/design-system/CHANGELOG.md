@@ -12,3 +12,9 @@ Versões no formato `MAIOR.MENOR.CORREÇÃO`. Mudança grande = versão nova (ex
 - **Rodada 2 do teste com IA concluída:** após a correção documental, a nova avaliação da tela “Compare as pizzas” confirmou a eliminação das ambiguidades identificadas na Rodada 1, incluindo a distinção entre pizzas estáticas e interativas, o uso de Radio Buttons Material 3 para seleção única e o uso de um único botão “Conferir resposta”.
 - **Fechamento da PizzaFracao:** definidos `pizza.size` (176 dp), separador de 2 dp, tokens de partes selecionadas/não selecionadas, denominadores de 2 a 8 e interação acessível por controles textuais equivalentes de 48 dp.
 - **Revisão final do README:** removidos textos residuais do template e exemplos de fluxos que não pertencem ao FatiaMática.
+
+## Proposta G1 — sem mudança de versão oficial
+
+- Registrada em `08-proposta-paleta-atelie.md` a divergência entre as cores dos tokens 1.0.0 e a paleta Ateliê Matemático solicitada para avaliação.
+- Calculadas combinações candidatas de texto/fundo; a proposta permanece separada e **não aprovada**, sem alterar os valores oficiais em `02-tokens.md`.
+- Nenhum teste em aparelho, TalkBack ou tela foi executado por esta documentação.
