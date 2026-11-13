@@ -32,3 +32,19 @@
 | Evidência de tela | NÃO APLICÁVEL — nenhuma interface foi implementada. |
 
 **Próximo gate:** revisão humana das propostas pedagógicas e conferência dos focos com a redação oficial da BNCC; manter G1 pendente até haver evidência de aprovação. Nenhum teste com estudantes, app ou Android foi executado.
+
+## Relatório — revisão de alinhamento do modelo de domínio (2026-11-13)
+
+| Item | Estado e evidência |
+|---|---|
+| Escopo e gate | Revisão documental autorizada; nenhuma regra matemática, limite ou política pedagógica foi alterada. Gate G1 permanece pendente de revisão humana. |
+| Fontes lidas | `AGENTS.md`, estado e gates, README de engenharia, matriz BNCC, README do Design System, arquitetura, requisitos, modelo de domínio e contrato técnico disponível em `origin/main`. O contrato `05-contratos-tecnicos.md` não existe na branch desta contribuição. |
+| Contrato de persistência | O Harness exige operações equivalentes a `loadProgress`, `saveAttempt` e `listAttempts`, mas não exige o nome `DataSource`. Mantido `ProgressRepository`; métodos e diagrama alinhados às operações do Harness após orientação da equipe. |
+| Organização do modelo | Resumo inicial consolidado. Não havia títulos principais duplicados no arquivo. Regras, exemplos, limites numéricos e decisões pendentes preservados. |
+| `git diff --check` | PASSOU — nenhuma inconsistência de whitespace. |
+| `python scripts/check_harness.py` | PASSOU — executado com o Python do ambiente do projeto (`.venv\Scripts\python.exe`); o Harness informou app/Android/build como NÃO EXECUTADO, fora do escopo da fase 0. |
+| Testes do app / Android / avaliação pedagógica | NÃO EXECUTADOS — aplicativo não implementado; não houve validação com estudantes. |
+| Arquivos documentais | `docs/engenharia/modelo-dominio.md` e este checklist. |
+| Evidência de tela | NÃO APLICÁVEL — nenhuma interface foi implementada. |
+
+**Próximo gate:** revisão humana das quatro contribuições; não declarar G1 aprovado.

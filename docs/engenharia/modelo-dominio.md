@@ -1,8 +1,6 @@
 # Modelo de domínio e regras matemáticas futuras
 
-## Estado das decisões
-
-Os contratos de questão, tentativa, progresso e persistência abaixo já estavam documentados como modelo futuro. As regras matemáticas detalhadas e os limites numéricos desta versão são **propostas para aprovação**; não são requisitos aprovados nem implementação. Leia em conjunto com [matriz-bncc.md](matriz-bncc.md) e [especificacao-pedagogica.md](especificacao-pedagogica.md).
+Modelo futuro: contratos de questão, tentativa, progresso e persistência estão documentados abaixo; regras matemáticas e limites numéricos são **propostas para aprovação**, não decisões aprovadas nem implementação. Consulte também [matriz-bncc.md](matriz-bncc.md) e [especificacao-pedagogica.md](especificacao-pedagogica.md).
 
 ## Fração e representações
 
@@ -68,14 +66,14 @@ Para conversão decimal, usar divisão inteira e restos; nunca usar aproximaçã
 
 **Progresso:** habilidade, tentativas, acertos, revisões, versão do esquema. Persistência apenas local, sem nome, telefone, e-mail ou identificadores pessoais.
 
-**Portas:** `ProgressRepository` (`saveAttempt`, `listAttempts`, `getSkillProgress`), `AudioFeedback` opcional (`play` com fallback silencioso).
+**Portas:** `ProgressRepository` expõe `loadProgress(): Result<Progress, StorageError>`, `saveAttempt(attempt): Result<void, StorageError>` e `listAttempts(filter): Result<Attempt[], StorageError>`, conforme o contrato de armazenamento do Harness. `AudioFeedback` é opcional (`play` com fallback silencioso).
 
 ```mermaid
 classDiagram
  class Fraction { +numerator +denominator +simplify() +compare() }
  class Question { +id +skillCode +expectedAnswer +explanation }
  class Attempt { +questionId +answer +correct +helpUsed }
- class ProgressRepository { <<interface>> +saveAttempt() +listAttempts() }
+ class ProgressRepository { <<interface>> +loadProgress() +saveAttempt() +listAttempts() }
  Question --> Fraction
  Attempt --> Question
  ProgressRepository --> Attempt
