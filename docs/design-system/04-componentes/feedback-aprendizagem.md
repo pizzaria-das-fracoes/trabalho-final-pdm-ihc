@@ -17,18 +17,18 @@ Os valores e os modos claro/escuro são resolvidos por [02-tokens.md](../02-toke
 
 ## Anatomia
 
-1. Região de mensagem: `color.surface`, `space.md`.
-2. Resultado e explicação: `font.body`, `color.on-surface`; mantenha texto explícito tanto em acerto quanto em tentativa incorreta.
-3. Orientação: descreva relação entre partes selecionadas e total; use `space.sm` entre trechos.
-4. Variante textual básica sem ícone: utilizável com os tokens atuais. Se incluir ícone Material Symbols como apoio, siga as orientações M3 de ícones e mantenha o texto completo, sem criar dimensões ou aliases locais.
-5. Ação de tentar novamente pertence à tela e usa o botão já documentado; a mensagem não é botão.
+1. Região de mensagem: persistente até a próxima ação ou navegação; não desaparece automaticamente.
+2. Acerto: `color.success` com `color.on-success`, ícone de apoio, título curto e explicação em texto.
+3. Tentativa incorreta: `color.surface`, borda/título `color.error`, corpo `color.on-surface`; mantenha a escolha para correção.
+4. Orientação: relacione partes, inteiro e próximo passo; use `font.body`/`font.label` e espaçamento documentado.
+5. Ação de tentar novamente pertence à tela e usa `Botao`; a mensagem não é botão.
 
 ## Variantes
 
 | Variante | Uso | Tokens |
 | --- | --- | --- |
-| Acerto explicado | Confirmar e explicar a relação representada | `color.surface`, `color.on-surface`, `font.body`, `space.md`, `space.sm` |
-| Tentativa incorreta orientada | Descrever a tentativa e orientar correção sem julgamento | Mesmos tokens; sem fundo vermelho obrigatório |
+| Acerto explicado | Confirmar e explicar a relação representada | `color.success`, `color.on-success`, `font.body`, `space.md`, `space.sm` |
+| Tentativa incorreta orientada | Descrever a tentativa e orientar correção sem julgamento | `color.surface`, `color.error`, `color.on-surface`, `font.body`, `space.md`, `space.sm` |
 | Orientação solicitada | Oferecer uma pista curta sem declarar acerto ou erro | Mesmos tokens |
 
 ## Estados
@@ -40,8 +40,8 @@ Os valores e os modos claro/escuro são resolvidos por [02-tokens.md](../02-toke
 | Pressionado | Não se aplica: mensagem não interativa | Não execute ação ao tocar no texto. | Não atribua papel de botão. |
 | Foco | Não se aplica como controle acionável; leitura continua disponível | Não mova foco automaticamente ao atualizar. | Permita encontrar a região pela navegação de leitura. |
 | Desabilitado | Não se aplica: informação não é um controle | Não esmaeça nem oculte a explicação quando a atividade estiver bloqueada. | Preserve leitura e ampliação. |
-| Acerto | Texto “Muito bem!” seguido da explicação; sem verde obrigatório | Exemplo: “Você selecionou 3 de 4 fatias. Isso representa 3/4.” | Anuncie o resultado e sua explicação juntos. |
-| Tentativa incorreta | Texto “Quase!” seguido da relação e orientação; sem vermelho obrigatório | Exemplo: “Você selecionou 2 de 4 fatias. Para representar 3/4, precisamos selecionar 3 das 4 fatias.” | Não anuncie somente erro; preserve a tentativa para correção. |
+| Acerto | `color.success`, `color.on-success`, ícone e texto “Muito bem!” seguido da explicação | Exemplo: “Você selecionou 3 de 4 fatias. Isso representa 3/4.” | Anuncie resultado e explicação juntos; não dependa somente de verde. |
+| Tentativa incorreta | Superfície, borda/título `color.error`, ícone e texto “Quase!” seguido da orientação | Exemplo: “Você selecionou 2 de 4 fatias. Para representar 3/4, precisamos selecionar 3 das 4 fatias.” | Não anuncie somente erro; preserve a tentativa para correção. |
 
 ## Acessibilidade
 

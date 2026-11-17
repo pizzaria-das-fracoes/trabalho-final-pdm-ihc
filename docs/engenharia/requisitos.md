@@ -1,4 +1,4 @@
-# Requisitos funcionais (planejados; não implementados)
+# Requisitos funcionais (implementação parcial)
 
 | ID | Requisito | Prioridade | BNCC |
 |---|---|---|---|

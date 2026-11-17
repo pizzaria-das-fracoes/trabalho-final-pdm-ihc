@@ -2,6 +2,15 @@
 
 Versões no formato `MAIOR.MENOR.CORREÇÃO`. Mudança grande = versão nova (ex.: 2.4.1 → 3.0.0).
 
+## 1.1.0 · 17/11/2026
+
+- Atualizada a documentação do Fatia Design System para usar `docs/oi.html` como referência visual mobile, mantendo o próprio Design System como documentação de conhecimento independente do Harness.
+- Documentados cabeçalho, mascote, representação numérica da fração, visualizações de atividade, seleção por rádio e painel de acessibilidade.
+- Atualizados tokens, fundamentos, componentes, padrões e orientações de acessibilidade para refletir a composição e os estados demonstrados no protótipo.
+- Criado `08-estado-e-evolucao.md` para distinguir protótipo, implementação parcial/atual e funções propostas. A inclusão no HTML não significa que a função esteja implementada ou aprovada no app.
+- A versão visual indicada no HTML permanece 1.0.0; 1.1.0 é a revisão documental do Fatia Design System.
+- **Responsáveis:** documentação assistida por IA; conteúdo sujeito à revisão da equipe FatiaMática.
+
 ## 1.0.0 · 21/10/2026
 
 - Primeira versão do sistema, preparada para apresentação na aula de 21/10.

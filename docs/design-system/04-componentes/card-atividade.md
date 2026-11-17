@@ -16,17 +16,19 @@ Os valores e os modos claro/escuro são resolvidos por [02-tokens.md](../02-toke
 
 ## Anatomia
 
-1. Container: `color.surface`, `radius.lg`, `elevation.card`.
-2. Título: `font.title`, `color.on-surface`.
-3. Descrição e situação da atividade: `font.body`, `color.on-surface`.
-4. Padding: `space.md`; intervalos internos: `space.sm`; separação externa entre grupos: `space.lg`.
-5. Área acionável única com nome da atividade e destino.
+1. Container: `color.surface-low`, `radius.md`, `elevation.card`.
+2. Mini PizzaFracao: `card.activity-pizza`, com resumo e fatias que identifiquem o tema da atividade.
+3. Título, descrição e estado: `font.body`, `font.label`/`font.small`, `color.on-surface`.
+4. Chip da habilidade: `font.chip`; escolha `color.accent-soft`, `color.success-soft` ou `color.info-soft` conforme a categoria, sempre com texto.
+5. Indicador de progresso: `color.surface-high` como trilha e preenchimento semântico; só represente dados disponíveis e rotule a medida.
+6. Padding/gap da referência: `card.activity-padding` e `card.activity-gap`; no Android respeite mínimo 48 dp e texto ampliado.
+7. Área acionável única com nome da atividade e destino; não aninhe botões.
 
 ## Variantes
 
 | Variante | Uso | Tokens |
 | --- | --- | --- |
-| Elevado acionável | Abrir uma atividade | `radius.lg`, `elevation.card`, `color.surface`, `color.on-surface`, `font.title`, `font.body`, `space.md`, `space.sm`, `space.lg` |
+| Card de catálogo acionável | Abrir atividade e resumir estado | `radius.md`, `elevation.card`, `color.surface-low`, `font.body`, `font.label`, `font.chip`, `card.activity-*`, `pizza.*` |
 
 ## Estados
 
@@ -52,6 +54,10 @@ Os valores e os modos claro/escuro são resolvidos por [02-tokens.md](../02-toke
 - **Evite:** Não dependa da sombra ou de cor para indicar disponibilidade.
 
 **Lacunas a resolver:** Nenhuma decisão estrutural pendente para o card elevado acionável. Camadas, elevações de interação, disabled, foco e ícones seguem o Elevated card M3. Nomes, descrições e condições de disponibilidade de cada atividade são conteúdo do produto a definir, não ausência de tokens.
+
+### Campos do card na versão 1.1.0
+
+O protótipo móvel apresenta mini pizza, nome, descrição, chip BNCC, estado (`Nova`, em prática ou dominada) e barra. No app, mostre status e medida somente quando a fonte e o cálculo estiverem definidos; não use a aparência de barra para sugerir percentual semântico diferente do dado real.
 
 ## Código
 
