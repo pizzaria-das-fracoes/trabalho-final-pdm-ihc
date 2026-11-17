@@ -1,6 +1,6 @@
 # Fatia Design System · Sistema de design do app FatiaMática
 
-> Versão documental: **1.1.0** · Referência visual mobile: [`docs/oi.html`](../oi.html) · Grupo: Nilson Rodrigo, Ana Rosa e Wesley Tiago · Disciplinas: IHC e PDM · IFPI Piripiri
+> Versão: 1.0.0 · Grupo: Nilson Rodrigo, Ana Rosa e Wesley Tiago · Disciplinas: IHC e PDM · IFPI Piripiri
 
 ## 1. Visão geral
 
@@ -49,8 +49,11 @@ O FatiaMática é um aplicativo educacional para estudantes do 6º ano que ensin
 | [05-padroes.md](05-padroes.md) | Fluxos de resolução de atividades e acompanhamento de progresso |
 | [06-acessibilidade.md](06-acessibilidade.md) | Contraste, alvos de toque, foco, leitor de tela |
 | [07-teste-com-ia.md](07-teste-com-ia.md) | Validação do sistema com um assistente de IA |
-| [08-estado-e-evolucao.md](08-estado-e-evolucao.md) | Relação HTML → Design System → app e status dos recursos propostos |
 | [CHANGELOG.md](CHANGELOG.md) | Versões e mudanças |
+
+### Proposta visual pendente
+
+A paleta Ateliê Matemático solicitada para o Gate G1 diverge dos valores atualmente consolidados em `02-tokens.md`. A proposta e seus cálculos estão isolados em [08-proposta-paleta-atelie.md](08-proposta-paleta-atelie.md); **a versão 1.0.0 permanece a fonte oficial até aprovação formal da equipe**. Wireframes e fluxos propostos estão em [docs/design-proposta/](../design-proposta/README.md).
 
 ## 5. Etiquetas de origem
 

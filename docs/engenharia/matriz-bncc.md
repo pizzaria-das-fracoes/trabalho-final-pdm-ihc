@@ -1,6 +1,14 @@
 # Rastreabilidade BNCC → requisitos → casos de uso → testes
 
-Códigos de habilidades do 6º ano, unidade temática **Números**. Validar redação exata com documento oficial antes de publicação; descrições abaixo são sínteses operacionais, não citações literais.
+## Situação e fonte
+
+Esta matriz organiza associações já presentes em `requisitos.md`, `casos-de-uso.md`, `criterios-de-aceite.md` e `plano-testes.md`. Não cria nem renumera RF, UC, CA ou T. A cobertura descrita é planejada, não implementada nem validada com estudantes.
+
+Os focos abaixo são sínteses operacionais, não transcrições oficiais. A redação e o contexto curricular de cada habilidade devem ser conferidos no documento oficial da BNCC antes de publicação. Referência indicada no projeto: [BNCC — versão final](https://basenacionalcomum.mec.gov.br/images/BNCC_EI_EF_110518_versaofinal_site.pdf).
+
+## Matriz de rastreabilidade existente
+
+Os identificadores e vínculos abaixo são os dos documentos vigentes. A associação à habilidade é curricularmente planejada; a coluna de lacunas distingue vínculo explícito de cobertura apenas relacionada. Não se criam nem se renumeram identificadores nesta rodada.
 
 | Habilidade | Foco do aplicativo | RF | UC | Teste planejado |
 |---|---|---|---|---|
@@ -13,4 +21,4 @@ Códigos de habilidades do 6º ano, unidade temática **Números**. Validar reda
 
 Referência oficial: https://basenacionalcomum.mec.gov.br/images/BNCC_EI_EF_110518_versaofinal_site.pdf
 
-**Status:** implementação inicial verificada para RF02–RF12, cobrindo UC01–UC08. RF13–RF14 continuam planejados; não há avaliação de aprendizagem ou conformidade BNCC validada.
+**Status:** todos os itens PLANEJADOS; nenhuma implementação ou avaliação de aprendizagem verificada neste ZIP.
