@@ -13,4 +13,4 @@ Códigos de habilidades do 6º ano, unidade temática **Números**. Validar reda
 
 Referência oficial: https://basenacionalcomum.mec.gov.br/images/BNCC_EI_EF_110518_versaofinal_site.pdf
 
-**Status:** todos os itens PLANEJADOS; nenhuma implementação ou avaliação de aprendizagem verificada neste ZIP.
+**Status:** implementação inicial verificada para RF02–RF12, cobrindo UC01–UC08. RF13–RF14 continuam planejados; não há avaliação de aprendizagem ou conformidade BNCC validada.

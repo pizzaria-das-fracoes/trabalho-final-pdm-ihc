@@ -39,26 +39,39 @@
   7. Preserve a escolha quando estiver incorreta e permita selecionar novamente e conferir outra tentativa.
 - **Composição e texto ampliado:** Em largura insuficiente ou com texto ampliado, empilhe as duas representações mantendo dimensões equivalentes. Não reduza arbitrariamente texto ou pizzas para forçar disposição lado a lado. Não defina breakpoint numérico. Use `space.md` nas margens, `space.sm` entre elementos relacionados e `space.lg` entre grupos, sem acrescentar valores visuais.
 - **Estados:** Aplique os estados Carregando, Erro, Vazio e Sucesso do padrão acima. A seleção da opção não é seleção de fatias; herde os estados do controle de seleção única e preserve a escolha nas tentativas incorretas.
-- **Recorte da versão 1.0.0:** O indicador de progresso não é obrigatório na tela “Compare as pizzas”. Ele permanece previsto no inventário, mas sua especificação está fora do recorte atual do Design System v1.0.0; a IA não deve inventar componente, aparência, tokens ou comportamento para ele.
+- **Recorte da tela de comparação:** O catálogo e a tela de progresso podem apresentar progresso disponível. Não acrescente um indicador à atividade “Compare as pizzas” sem necessidade pedagógica ou requisito; essa atividade deve manter o foco na comparação e na resposta.
 
 ## Padrão 2: Acompanhar progresso
 
 - **Objetivo do usuário:** Consultar o próprio progresso nas atividades, sem ranking ou comparação competitiva com outros estudantes.
-- **Componentes usados:** [CardAtividade](04-componentes/card-atividade.md); use [BarraNavegacao](04-componentes/barra-navegacao.md) somente se a arquitetura final incluir “Meu progresso” como destino principal. Para recuperação de erro, use [Botao](04-componentes/botao.md) quando houver uma operação que possa ser repetida.
+- **Componentes usados:** [CardAtividade](04-componentes/card-atividade.md), [BarraNavegacao](04-componentes/barra-navegacao.md) e [Botao](04-componentes/botao.md) quando houver ação de recuperação.
 - **Passos:**
-  1. Permita acessar “Meu progresso” pelo caminho definido na arquitetura futura; não defina agora os destinos finais da `BarraNavegacao`.
+  1. Permita acessar “Meu progresso” pelo destino `Progresso` da `BarraNavegacao`.
   2. Apresente as atividades realizadas e o progresso individual disponível em texto; use `font.title` no título e `font.body` nas informações. Não invente métricas ou dados ausentes.
   3. Organize as informações por atividade usando `CardAtividade` quando houver uma ação disponível; mantenha os demais dados como texto, sem criar outro componente.
-  4. Permita abrir uma atividade para continuar ou praticar novamente quando a ação estiver disponível; preserve o nome e a finalidade no rótulo acessível do card.
+  4. Permita abrir uma atividade para continuar ou praticar novamente quando essa ação estiver disponível; preserve nome e finalidade no rótulo acessível do card.
   5. Mantenha o acompanhamento individual; não crie ranking, pontuação competitiva ou comparação com outros estudantes.
 - **Estados que precisam de tela:**
 
 | Situação | O que o usuário vê | Componentes e tokens |
 | --- | --- | --- |
-| Carregando | Informe “Carregando seu progresso…”. Preserve o título e o contexto; não apresente valores provisórios como resultados reais. | Texto com `font.body`, `color.on-surface` sobre `color.surface`; `space.md` nas margens. Preserve `BarraNavegacao` apenas quando já fizer parte da arquitetura; não acrescente indicador visual novo. |
+| Carregando | Informe “Carregando seu progresso…”. Preserve o título e o contexto; não apresente valores provisórios como resultados reais. | Texto com `font.body`, `color.on-surface` sobre `color.surface`; `space.md` nas margens. Preserve a `BarraNavegacao`. |
 | Erro | Informe “Não foi possível carregar seu progresso”. Preserve os dados já disponíveis, identificando-os como anteriores quando necessário; ofereça “Tentar novamente” se for possível repetir o carregamento. | Texto com `font.body` e `color.error` sobre `color.surface`; `Botao` de recuperação com `button.bg`, `button.label`, `button.radius` e `button.font`, somente quando aplicável. |
 | Vazio | Informe “Você ainda não concluiu atividades” e oriente a realizar uma atividade. Se houver atividade disponível para abrir, apresente seu card; não trate ausência de progresso como erro. | Texto com `font.body`, `color.on-surface` e `color.surface`; `CardAtividade` quando apropriado, com `radius.lg`, `elevation.card`, `font.title`, `font.body`, `space.md` e `space.sm`. |
-| Sucesso | Apresente o progresso individual disponível e as atividades correspondentes. Ofereça continuar ou praticar novamente somente quando houver essa ação. | Texto e `CardAtividade` quando apropriado; `color.surface`, `color.on-surface`, `font.title`, `font.body`, `radius.lg`, `elevation.card`, `space.sm`, `space.md` e `space.lg`. Use `BarraNavegacao` somente na condição arquitetural indicada. |
+| Sucesso | Apresente o progresso individual disponível e as atividades correspondentes. Ofereça continuar ou praticar novamente somente quando houver essa ação. | Texto e `CardAtividade` quando apropriado; `color.surface`, `color.on-surface`, `font.title`, `font.body`, `radius.lg`, `elevation.card`, `space.sm`, `space.md` e `space.lg`; preserve a `BarraNavegacao`. |
 
 - **Faça:** Apresente somente dados disponíveis, diferencie ausência de progresso de falha de carregamento e preserve leitura com texto ampliado; garanta alvo mínimo de 48 dp nos cards, botões e destinos interativos.
-- **Evite:** Não introduza login, cadastro, ranking, métricas competitivas ou destinos de navegação não aprovados; não crie gráficos ou componentes apenas para preencher os estados.
+- **Evite:** Não introduza login, cadastro, ranking ou métricas competitivas; não invente valores de progresso nem crie gráficos apenas para preencher estados sem dados.
+
+## Catálogo de atividades
+
+- Use `CardAtividade` para mostrar título, habilidade, representação matemática em miniatura, estado e progresso somente quando esse dado existir.
+- Mantenha uma ação principal por card e um rótulo acessível que identifique a atividade e o estado. Não apresente conteúdo indisponível como se estivesse pronto para abrir.
+- Em telas estreitas ou com texto ampliado, permita que o card cresça e role verticalmente; não reduza a fonte para encaixar título, fração e status.
+- O protótipo mostra estados e indicadores visuais. O app só pode exibir progresso calculado e persistido conforme requisitos funcionais aprovados; indicador visual não cria uma regra de domínio.
+
+## Painel de acessibilidade demonstrado no protótipo
+
+- `docs/oi.html` inclui controles de avaliação de tema, áudio, escala de texto, movimento, tons de cinza, guias de alvo e contraste. Consulte [08-estado-e-evolucao.md](08-estado-e-evolucao.md) para o estado de cada recurso.
+- No app, esses controles são **propostos**, não padrão obrigatório dos componentes. Não simule uma configuração funcional com controles sem efeito.
+- Antes de implementar, defina se o painel é ferramenta interna de IHC ou recurso do estudante, estabeleça o comportamento nativo e registre requisitos, casos de uso, critérios de aceite e validações.

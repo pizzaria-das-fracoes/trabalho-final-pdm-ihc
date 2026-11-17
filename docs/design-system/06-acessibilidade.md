@@ -3,7 +3,7 @@
 
 ## Contraste dos pares de cor
 
-Base exclusiva: Google Material Design 3. Os pares abaixo reproduzem as cores de [02-tokens.md](02-tokens.md), recalculadas em sRGB por script nesta etapa documental. Normalize os canais, linearize-os e calcule a luminância conforme a fórmula WCAG registrada no arquivo de tokens; compare os valores integrais antes de arredondar para duas casas na tabela. Nas camadas de estado, use as composições já resolvidas em `02-tokens.md`.
+Base: Google Material Design 3, adaptada pelos tokens locais e pela referência visual [`docs/oi.html`](../oi.html). Os pares abaixo reproduzem as cores de [02-tokens.md](02-tokens.md), recalculadas em sRGB por script nesta etapa documental. Normalize os canais, linearize-os e calcule a luminância conforme a fórmula WCAG registrada no arquivo de tokens; compare os valores integrais antes de arredondar para duas casas na tabela. Nas camadas de estado, use as composições já resolvidas em `02-tokens.md`.
 
 | Par (texto sobre fundo) | Modo | Cores | Razão | Mínimo | Resultado |
 | --- | --- | --- | --- | --- | --- |
@@ -49,7 +49,7 @@ Base exclusiva: Google Material Design 3. Os pares abaixo reproduzem as cores de
 - Use `color.focus` como referência cromática local quando houver mapeamento aprovado; não substitua silenciosamente o tratamento completo herdado por uma mudança de cor.
 - Preserve uma ordem de foco que acompanhe a ordem visual e a tarefa: enunciado, representação e resumo acessíveis, controles de resposta e ação de conferir. Exponha textos estáticos à leitura sem torná-los controles acionáveis.
 - Na pizza interativa, ofereça uma parada por controle de parte em ordem previsível; evite duplicar a mesma ação no desenho e na lista textual. As fatias gráficas não são o único alvo acionável; o foco permanece nos controles equivalentes de 48 dp.
-- Mantenha destinos de navegação na ordem aprovada pela arquitetura futura; não fixe a lista neste documento.
+- Mantenha a ordem de navegação `Início`, `Sobre`, `Progresso`, conforme [BarraNavegacao](04-componentes/barra-navegacao.md).
 - Preserve o foco após erro ou feedback; anuncie a atualização sem deslocá-lo automaticamente. Após navegação, coloque-o em um ponto inicial coerente da nova tela.
 - Verifique operação por teclado e TalkBack, ausência de armadilhas e foco não encoberto na implementação Android. Não apresente essas verificações como testes já realizados.
 
@@ -76,3 +76,15 @@ Base exclusiva: Google Material Design 3. Os pares abaixo reproduzem as cores de
 - Respeite redução de movimento: remova deslocamentos e transições decorativas e apresente imediatamente estado final, informação e feedback necessários.
 - Não use animações contínuas ou meramente decorativas durante as atividades; não condicione a compreensão a acompanhar uma animação.
 - Verifique ampliação, redução de movimento, leitura e alcance dos controles na implementação Android. Os contrastes foram calculados; os testes em aparelho e com usuários ainda não foram realizados.
+
+## Controles de avaliação do protótipo
+
+O painel em `docs/oi.html` demonstra ferramentas para inspecionar tema, escala de texto, movimento, tons de cinza, alvos de toque e pares de contraste. Essa demonstração não comprova acessibilidade do app e não transforma cada controle em requisito de interface nativa.
+
+- **Estado atual:** o painel é proposto para o app; consulte [08-estado-e-evolucao.md](08-estado-e-evolucao.md) antes de declarar disponibilidade.
+- **Tema:** verifique claro e escuro em todas as superfícies e estados; não altere somente a cor de fundo.
+- **Escala:** o slider do protótipo não substitui o suporte à escala do sistema Android. Se houver controle local aprovado, preserve reflow de 100% a 200%, sem corte ou redução de texto.
+- **Movimento:** respeite a preferência do sistema e mantenha informação e feedback disponíveis sem animação.
+- **Tons de cinza:** use como inspeção de dependência cromática; não como prova de contraste ou de leitura por tecnologia assistiva.
+- **Alvos e contraste:** guias e números calculados são auxiliares. Meça controles e pares efetivamente renderizados no app e registre os resultados de dispositivo.
+- **Áudio:** efeitos devem iniciar desligados e nunca substituir informação textual ou visual. Áudio no HTML não está implementado no app.

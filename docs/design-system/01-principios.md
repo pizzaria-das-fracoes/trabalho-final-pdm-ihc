@@ -20,3 +20,17 @@
 - **O porquê:** Informar apenas que uma resposta está certa ou errada não é suficiente para apoiar a aprendizagem. O feedback deve ajudar o estudante a compreender o resultado de sua ação.
 - **Na prática:** Após uma resposta, apresente uma mensagem clara explicando o resultado e, quando houver erro, forneça orientação relacionada à atividade. O feedback deve utilizar texto e elementos visuais, sem depender somente de cor.
 - **Evite:** Mostrar apenas mensagens como `Errado`, utilizar somente vermelho ou verde para comunicar o resultado ou fornecer uma resposta sem explicação quando houver oportunidade de orientar o estudante.
+
+## Princípio 4: Lúdico a serviço da matemática
+
+- **Origem:** Novo. A identidade do HTML de referência usa personagens, crosta, coberturas, chips e pequenas celebrações para acolher o estudante.
+- **O porquê:** O caráter lúdico deve ajudar o estudante a permanecer na tarefa e entender o conteúdo, sem competir com a fração nem transformar erros em punição.
+- **Na prática:** Mascote, ingredientes, estados e conquistas acompanham a explicação matemática; movimentos são breves, opcionais e reduzidos durante a resolução.
+- **Evite:** Decorar sem função, ranquear estudantes ou usar recompensa visual para substituir explicação.
+
+## Princípio 5: Acessibilidade controlável
+
+- **Origem:** Adaptado. O protótipo demonstra controles para escala de texto, movimento, tons de cinza, guias de toque e conferência de contraste.
+- **O porquê:** A interface deve funcionar com diferentes necessidades e permitir que a equipe confira problemas de IHC durante a avaliação.
+- **Na prática:** Controles de acessibilidade têm rótulos, estado anunciado e resultado visível. No app, só devem ser apresentados quando cada controle tiver comportamento implementado.
+- **Evite:** Exibir botões de teste sem ação, alegar aprovação por um painel ou depender apenas de inspeção visual.

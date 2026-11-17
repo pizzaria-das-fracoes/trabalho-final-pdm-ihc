@@ -1,7 +1,7 @@
 # Fundamentos
 
 
-Base exclusiva: Google Material Design 3. As regras abaixo aplicam os tokens de [02-tokens.md](02-tokens.md). Herdado indica uma diretriz Material 3 mantida; Adaptado indica sua aplicação específica à marca, ao contexto educativo ou às convenções do template do professor. No espaçamento, essa classificação não significa alteração dos valores preservados nem conversão de unidades.
+Base: Google Material Design 3, adaptada pela linguagem visual móvel de [`docs/oi.html`](../oi.html). As regras abaixo aplicam os tokens de [02-tokens.md](02-tokens.md). Herdado indica uma diretriz M3 mantida; Adaptado indica sua aplicação à marca e ao contexto educativo. Valores do palco desktop do HTML não definem dimensões fixas para a tela Android.
 
 ## Cor
 
@@ -11,6 +11,10 @@ Base exclusiva: Google Material Design 3. As regras abaixo aplicam os tokens de 
 - Associe texto, ícone ou outra indicação perceptível à cor ao comunicar acerto, erro, seleção ou outro estado; nunca dependa somente da cor. (Herdado)
 - Use somente as cores definidas em `02-tokens.md`; não introduza valores hexadecimais diretamente na interface. (Adaptado)
 - Aplique a paleta do FatiaMática como adaptação de marca e preserve os papéis semânticos Material 3 documentados em `02-tokens.md`. (Adaptado)
+- Use `color.surface-low` para agrupar catálogo e conteúdo secundário; reserve `color.surface` para a superfície principal do app.
+- Use `color.accent-soft` para alvo da fração, chips de seleção e indicador da aba atual; mantenha `color.on-accent-soft` sobre esse fundo.
+- Use `color.success` somente para acerto confirmado; erro usa superfície clara, borda/texto de erro e orientação. Não pinte progresso neutro como sucesso.
+- Em dialogs e painel modal, aplique `color.scrim` e restaure o foco ao controle que abriu o painel.
 
 ## Tipografia
 
@@ -19,6 +23,7 @@ Base exclusiva: Google Material Design 3. As regras abaixo aplicam os tokens de 
 - Use `font.label` nos rótulos de controles, conforme o estilo Material 3 label-large. (Herdado)
 - Respeite a escala de fonte configurada pelo usuário no Android. (Herdado)
 - Permita quebra de linha quando o texto aumentar; não reduza arbitrariamente a fonte para fazê-lo caber. (Herdado)
+- Use `font.question`, `font.option`, `font.small`, `font.chip` e `font.helper` apenas nos usos definidos em `02-tokens.md`; todos devem respeitar escala de fonte.
 
 ## Espaçamento
 
@@ -50,3 +55,14 @@ Base exclusiva: Google Material Design 3. As regras abaixo aplicam os tokens de 
 - Use `motion.easing.standard` nas mudanças simples previstas pelo sistema. (Herdado)
 - Evite animações contínuas ou meramente decorativas durante a resolução das atividades. (Adaptado)
 - Respeite a opção de redução de movimento do sistema; remova deslocamentos e transições decorativas sem remover informações ou feedback necessários. (Herdado)
+- Mascote pode flutuar/piscar somente na entrada e início; pare o movimento durante a resolução e quando a redução de movimento estiver ativa.
+- Celebração breve ocorre somente após resposta correta; erro pode ter retorno visual curto, sem tremer conteúdo essencial nem deslocar o foco.
+
+## Composição mobile de referência
+
+- Estruture as telas com área segura, cabeçalho persistente, conteúdo rolável e navegação inferior.
+- Use toda a largura útil do dispositivo. A moldura de telefone e o painel lateral de marca do HTML pertencem à avaliação desktop do protótipo, não à tela Android.
+- Cabeçalho identifica a tela e mantém apenas ações com nome e comportamento definidos. Não exiba som, tema ou painel de IHC enquanto seus controles não tiverem comportamento no app.
+- Cards de atividade combinam mini pizza, título, descrição curta, chip de habilidade, estado e progresso disponível. O card inteiro é uma única ação.
+- Em atividades, apresente enunciado, representação matemática e opções em hierarquia vertical; mantenha a ação principal após os controles.
+- Use tokens locais de componentes descritos em `02-tokens.md`; não espalhe medidas CSS isoladas em telas.

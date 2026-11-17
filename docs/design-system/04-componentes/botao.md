@@ -27,6 +27,8 @@ Os valores e os modos claro/escuro são resolvidos por [02-tokens.md](../02-toke
 | --- | --- | --- |
 | Principal preenchido | Ação principal disponível | `button.bg`, `button.label`, `button.radius`, `button.font` |
 
+O protótipo `docs/oi.html` também demonstra variantes Material 3 conforme a hierarquia: **filled** (principal), **tonal** (secundária destacada), **outlined** (secundária), **text** (baixo destaque) e **perigo** (ação destrutiva). Não use duas ações filled concorrentes na mesma etapa. A variante só deve aparecer quando sua ação existir no app.
+
 ## Estados
 
 | Estado | Aparência (tokens) | Comportamento | Acessibilidade |

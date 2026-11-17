@@ -6,8 +6,8 @@ Os valores e os modos claro/escuro são resolvidos por [02-tokens.md](../02-toke
 
 ## Quando usar
 
-- Use para alternar entre destinos principais, mantendo ordem e rótulos estáveis.
-- Defina a lista de destinos antes de implementar a barra; o inventário não fecha essa arquitetura.
+- Use para alternar entre os destinos principais móveis demonstrados no protótipo: **Início**, **Sobre** e **Progresso**.
+- Mantenha os mesmos destinos e a mesma ordem em todas as telas que exibem a barra.
 
 ## Quando não usar
 
@@ -16,28 +16,28 @@ Os valores e os modos claro/escuro são resolvidos por [02-tokens.md](../02-toke
 
 ## Anatomia
 
-1. Container: `color.surface`, adaptação local; herde dimensões e distribuição da Navigation bar M3 e respeite áreas seguras e navegação do sistema Android.
+1. Container: `color.surface-mid`, adaptado ao HTML; respeite área segura e navegação do sistema Android.
 2. Rótulos: `font.label`, `color.on-surface`; adaptação em relação ao label-medium do M3 de referência.
 3. Ícones: Material Symbols com rótulos; herde dimensões e posicionamento da Navigation bar M3. A escolha dos símbolos depende dos destinos aprovados.
-4. Indicador selecionado: herde forma, dimensões e papéis cromáticos da Navigation bar M3 no tema base; herde também as camadas de estado. Não invente aliases locais nem use `color.action` para todos os destinos. Um eventual mapeamento desses papéis para a marca exige aprovação própria.
+4. Indicador selecionado: `navigation.indicator` usa `color.accent-soft` com `color.on-accent-soft`; dimensões web são `navigation.indicator-width` e `navigation.indicator-height`. Preserve a cápsula e o rótulo selecionado visível.
 5. Seleção semântica: exatamente um destino atual.
 
 ## Variantes
 
 | Variante | Uso | Tokens |
 | --- | --- | --- |
-| Barra inferior de destinos principais | Navegação global Android; destinos a validar | `color.surface`, `color.on-surface`, `font.label` |
+| Barra inferior de destinos principais | Início, Sobre e Progresso | `color.surface-mid`, `color.on-surface`, `font.label`, `navigation.indicator` |
 
 ## Estados
 
 | Estado | Aparência (tokens) | Comportamento | Acessibilidade |
 | --- | --- | --- | --- |
-| Padrão | Rótulos `color.on-surface` sobre `color.surface` | Mantenha itens não selecionados disponíveis. | Anuncie rótulo de cada destino. |
+| Padrão | Rótulos `color.on-surface` sobre `color.surface-mid` | Mantenha os três destinos disponíveis. | Anuncie rótulo de cada destino. |
 | Hover | Camada de hover herdada da Navigation bar M3 | Não se aplica ao toque sem ponteiro. | Não dependa do hover para revelar rótulos. |
 | Pressionado | Camada pressionada herdada da Navigation bar M3 | Navegue após ativação; não confunda pressionado com selecionado. | Preserve foco após mudança de destino. |
 | Foco | Foco visível herdado da Navigation bar M3 e da implementação acessível Android | Percorra itens em ordem visual. | Permita ativação por teclado e TalkBack. |
 | Desabilitado | Não se aplica nesta variante: destinos são apresentados disponíveis | Não represente bloqueio de conteúdo desabilitando destino global. | Explique indisponibilidade na tela correspondente. |
-| Selecionado | Indicador selecionado herdado da Navigation bar M3; rótulo continua visível | Marque o destino atual e não reinicie a tela ao reativar sem necessidade. | Anuncie papel de aba e estado selected, não só uma mudança de cor. |
+| Selecionado | Cápsula `color.accent-soft`, ícone/rótulo `color.on-accent-soft` | Marque exatamente o destino atual e evite reinício desnecessário. | Anuncie papel de aba e estado selected, não só uma mudança de cor. |
 
 ## Acessibilidade
 
@@ -52,7 +52,7 @@ Os valores e os modos claro/escuro são resolvidos por [02-tokens.md](../02-toke
 - **Faça:** Mantenha os mesmos destinos e a mesma ordem nas telas que usam a barra.
 - **Evite:** Não trate a barra como lista de todas as ações da atividade.
 
-**Lacunas a resolver:** Definir destinos do FatiaMática, quantidade, ordem, rótulos e símbolos correspondentes. Não invente destinos. A estrutura e o indicador seguem a Navigation bar M3; somente uma personalização adicional das cores do indicador além do tema M3 herdado exigiria decisão de marca. Isso não impede documentar a estrutura da barra.
+**Estado da versão:** destinos e indicador definidos pela referência `docs/oi.html`. A validação de alvos, foco e leitura no Android continua pendente; isso não altera os nomes definidos nesta especificação.
 
 ## Código
 
