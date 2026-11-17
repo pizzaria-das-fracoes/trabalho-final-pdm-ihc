@@ -1,5 +1,7 @@
 # Acessibilidade
 
+> A paleta oficial e as razões atualmente consolidadas permanecem as de [02-tokens.md](02-tokens.md). A alternativa Ateliê Matemático e suas medições estão separadas em [08-proposta-paleta-atelie.md](08-proposta-paleta-atelie.md), pendentes de aprovação formal; não aplicar a proposta como substituição nesta versão.
+
 
 ## Contraste dos pares de cor
 

@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireframes Android — FatiaMática · Gate G1</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --terracotta: #B94F27;
+      --cheese: #F5B544;
+      --cream: #FFF5E8;
+      --basil: #3F8067;
+      --cocoa: #44322C;
+      --error: #B3261E;
+      --paper: #fffdf9;
+      --line: #c9b9a7;
+      --device-width: 393px;
+      font: 16px/1.5 system-ui, sans-serif;
+      color: var(--cocoa);
+      background: #f3ece3;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; }
+    button { font: inherit; color: inherit; }
+    .page { max-width: 1040px; margin: auto; padding: 20px; }
+    .page h1 { margin: 0 0 4px; font-size: 1.4rem; }
+    .page-intro { margin: 0 0 16px; }
+    .notice {
+      margin: 12px 0 16px;
+      padding: 12px;
+      border: 2px solid var(--terracotta);
+      border-radius: 12px;
+      background: var(--cream);
+      font-weight: 600;
+    }
+    .controls { display: grid; gap: 12px; }
+    .control-group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .control-group strong { width: 100%; }
+    .switch {
+      min-width: 48px;
+      min-height: 48px;
+      border: 2px solid var(--cocoa);
+      border-radius: 999px;
+      padding: 8px 14px;
+      background: var(--paper);
+      cursor: pointer;
+    }
+    .switch[aria-pressed="true"] { background: var(--cocoa); color: #fff; }
+    .stage-scroll { overflow-x: auto; padding: 16px 2px; }
+    .stage {
+      width: var(--device-width);
+      min-width: 320px;
+      margin: 0 auto;
+    }
+    .device {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 800px;
+      overflow: hidden;
+      border: 2px solid var(--cocoa);
+      border-radius: 26px;
+      background: var(--cream);
+      box-shadow: 0 8px 28px #44322c24;
+    }
+    .system-top {
+      flex: 0 0 24px;
+      display: flex;
+      justify-content: space-between;
+      padding: 1px 18px 0;
+      font-size: 12px;
+      line-height: 20px;
+      background: var(--cream);
+    }
+    .app-header {
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-bottom: 1px solid var(--line);
+      background: var(--cream);
+    }
+    .app-header h2 {
+      flex: 1;
+      min-width: 0;
+      margin: 0;
+      font-size: 1.125rem;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+    .back {
+      min-width: 48px;
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--paper);
+      cursor: pointer;
+    }
+    .settings-link {
+      min-width: 48px;
+      min-height: 48px;
+      border: 0;
+      border-radius: 12px;
+      padding: 4px;
+      background: transparent;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .screen-content {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 16px;
+      scrollbar-color: var(--terracotta) transparent;
+    }
+    .screen-content > * + * { margin-top: 12px; }
+    .screen-content h3 { margin: 0; font-size: 1.25rem; line-height: 1.3; }
+    .screen-content p { margin: 8px 0 0; }
+    .lead { font-size: 1rem; }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background: var(--paper);
+    }
+    .card strong { display: block; }
+    .card p { margin: 4px 0 0; }
+    .card + .card { margin-top: 10px; }
+    .primary, .secondary, .mock-control {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+    .primary {
+      width: 100%;
+      border: 2px solid var(--terracotta);
+      background: var(--terracotta);
+      color: #fff;
+    }
+    .secondary {
+      width: 100%;
+      border: 2px solid var(--terracotta);
+      background: transparent;
+      color: var(--cocoa);
+    }
+    .mock-control {
+      border: 2px solid var(--cocoa);
+      border-radius: 12px;
+      background: var(--paper);
+      color: var(--cocoa);
+    }
+    .selected {
+      outline: 3px solid var(--terracotta);
+      outline-offset: 2px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: var(--cheese);
+      color: var(--cocoa);
+      font-weight: 700;
+    }
+    .success {
+      border-radius: 12px;
+      padding: 12px;
+      background: var(--basil);
+      color: #fff;
+      font-weight: 700;
+    }
+    .world-grid { display: grid; gap: 10px; }
+    .stage[data-width="320"] .world-grid { grid-template-columns: 1fr; }
+    .stage[data-width="393"] .world-grid,
+    .stage[data-width="430"] .world-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .world-card { min-height: 104px; }
+    .world-card .badge { margin-top: 8px; }
+    .activity-list { display: grid; gap: 10px; }
+    .activity-card { min-height: 76px; }
+    .pizza-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
+    .pizza {
+      width: 148px;
+      height: 148px;
+      flex: 0 0 148px;
+      border: 3px solid var(--cocoa);
+      border-radius: 50%;
+      background: conic-gradient(var(--terracotta) 0 75%, var(--cream) 75% 100%);
+      position: relative;
+    }
+    .pizza-half {
+      background: conic-gradient(var(--terracotta) 0 50%, var(--cream) 50% 100%);
+    }
+    .pizza::before, .pizza::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: var(--cocoa);
+      transform: translateX(-50%);
+    }
+    .pizza::after { transform: translateX(-50%) rotate(90deg); }
+    .fraction {
+      min-width: 58px;
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-align: center;
+    }
+    .choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .choice {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 8px;
+      background: var(--paper);
+    }
+    .check {
+      width: 22px;
+      height: 22px;
+      flex: 0 0 22px;
+      display: inline-grid;
+      place-items: center;
+      border: 2px solid var(--cocoa);
+      border-radius: 4px;
+      background: var(--terracotta);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .setting-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .setting-row strong { min-width: 0; }
+    .setting-row span { text-align: right; }
+    .bottom-nav {
+      flex: 0 0 64px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      background: var(--paper);
+    }
+    .tab {
+      min-width: 0;
+      min-height: 48px;
+      align-self: center;
+      display: grid;
+      place-items: center;
+      padding: 4px 2px;
+      border: 0;
+      background: transparent;
+      font-size: 0.75rem;
+      line-height: 1.2;
+      text-align: center;
+      overflow-wrap: anywhere;
+      cursor: pointer;
+    }
+    .tab[aria-current="page"] {
+      border-radius: 12px;
+      background: var(--cheese);
+      color: var(--cocoa);
+      font-weight: 800;
+    }
+    .system-bottom {
+      flex: 0 0 24px;
+      display: grid;
+      place-items: center;
+      background: var(--paper);
+    }
+    .gesture { width: 108px; height: 4px; border-radius: 99px; background: var(--cocoa); }
+    .caption { margin: 0; text-align: center; font-weight: 700; }
+    .view[hidden] { display: none; }
+    .view { display: flex; flex-direction: column; }
+    .focus-note { border: 2px dashed var(--terracotta); border-radius: 10px; padding: 8px; }
+    @media (max-width: 600px) {
+      .page { padding: 12px; }
+      .stage-scroll { margin: 0 -12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1>Wireframes Android — FatiaMática</h1>
+    <p class="page-intro">Dez quadros originais para revisão do Gate G1. Protótipo documental, sem dependências e sem dados reais.</p>
+    <p class="notice">Paleta Ateliê Matemático aplicada apenas como proposta visual; depende de aprovação. Os quadros não são telas do aplicativo.</p>
+
+    <div class="controls">
+      <div class="control-group" role="group" aria-label="Selecionar wireframe">
+        <strong>Tela</strong>
+        <button class="switch screen-switch" data-screen="inicio" aria-pressed="true">Início</button>
+        <button class="switch screen-switch" data-screen="mundos" aria-pressed="false">Mundos</button>
+        <button class="switch screen-switch" data-screen="atividades" aria-pressed="false">Atividades</button>
+        <button class="switch screen-switch" data-screen="aula" aria-pressed="false">Aula</button>
+        <button class="switch screen-switch" data-screen="exercicio" aria-pressed="false">Exercício</button>
+        <button class="switch screen-switch" data-screen="feedback" aria-pressed="false">Feedback</button>
+        <button class="switch screen-switch" data-screen="resultado" aria-pressed="false">Resultado</button>
+        <button class="switch screen-switch" data-screen="progresso" aria-pressed="false">Progresso</button>
+        <button class="switch screen-switch" data-screen="erros" aria-pressed="false">Caderno de erros</button>
+        <button class="switch screen-switch" data-screen="configuracoes" aria-pressed="false">Configurações</button>
+      </div>
+      <div class="control-group" role="group" aria-label="Largura documental do quadro">
+        <strong>Largura de prévia (dp, escala documental 1×)</strong>
+        <button class="switch width-switch" data-width="320" aria-pressed="false">320 dp</button>
+        <button class="switch width-switch" data-width="393" aria-pressed="true">393 dp</button>
+        <button class="switch width-switch" data-width="430" aria-pressed="false">430 dp</button>
+      </div>
+    </div>
+
+    <div class="stage-scroll">
+      <div class="stage" id="stage" data-width="393">
+        <section class="view" id="inicio" aria-label="Wireframe 1: Início">
+          <div class="device">
+            <div class="system-top"><span>9:41</span><span>● ● ▰</span></div>
+            <header class="app-header"><h2>FatiaMática</h2><button class="settings-link" data-go="configuracoes" aria-label="Abrir configurações">Config.</button></header>
+            <div class="screen-content">
+              <h3>Olá! Vamos aprender?</h3>
+              <p class="lead">Suas frações, um passo de cada vez.</p>
+              <div class="card">
+                <span class="badge">Continuar</span>
+                <strong>Montar uma fração</strong>
+                <p>Retome de onde você parou.</p>
+                <button class="primary" data-go="exercicio">Continuar atividade</button>
+              </div>
+              <div class="card">
+                <strong>Escolha um mundo</strong>
+                <p>Explore aulas e atividades de frações.</p>
+                <button class="secondary" data-go="mundos">Ver os quatro mundos</button>
+              </div>
+              <p class="focus-note">Ação de configurações no cabeçalho; destinos principais na barra inferior.</p>
+            </div>
+            <nav class="bottom-nav" aria-label="Navegação principal">
+              <button class="tab" data-go="inicio" aria-current="page">Início</button><button class="tab" data-go="mundos">Mundos</button><button class="tab" data-go="progresso">Progresso</button><button class="tab" data-go="erros">Erros</button>
+            </nav>
+            <div class="system-bottom" aria-hidden="true"><span class="gesture"></span></div>
+          </div>
+        </section>
+
+        <section class="view" id="mundos" aria-label="Wireframe 2: Mapa dos quatro mundos" hidden>
+          <div class="device">
+            <div class="system-top"><span>9:41</span><span>● ● ▰</span></div>
+            <header class="app-header"><h2>Seus mundos</h2></header>
+            <div class="screen-content">
+              <p class="lead">Escolha um tema para explorar.</p>
+              <div class="world-grid">
+                <button class="card world-card" data-go="atividades"><strong>1 · Frações e significados</strong><p>Partes, comparação e equivalência</p><span class="badge">EF06MA07</span></button>
+                <button class="card world-card" data-go="atividades"><strong>2 · Frações na reta e decimais</strong><p>Posição e representação decimal</p><span class="badge">EF06MA08</span></button>
+                <button class="card world-card" data-go="atividades"><strong>3 · Fração de uma quantidade</strong><p>Frações em situações do dia a dia</p><span class="badge">EF06MA09</span></button>
+                <button class="card world-card" data-go="atividades"><strong>4 · Operações com frações</strong><p>Adição e subtração</p><span class="badge">EF06MA10</span></button>
+              </div>
+              <p class="focus-note">Nomes e agrupamento são propostas; o estado do mundo deve ser informado também por texto.</p>
+            </div>
+            <nav class="bottom-nav" aria-label="Navegação principal">
+              <button class="tab" data-go="inicio">Início</button><button class="tab" data-go="mundos" aria-current="page">Mundos</button><button class="tab" data-go="progresso">Progresso</button><button class="tab" data-go="erros">Erros</button>
+            </nav>
+            <div class="system-bottom" aria-hidden="true"><span class="gesture"></span></div>
+          </div>
+        </section>
+
+        <section class="view" id="atividades" aria-label="Wireframe 3: Seleção de atividades" hidden>
+          <div class="device">
+            <div class="system-top"><span>9:41</span><span>● ● ▰</span></div>
+            <header class="app-header"><button class="back" data-go="mundos" aria-label="Voltar aos mundos">‹</button><h2>Mundo 1 · Frações</h2></header>
+            <div class="screen-content">
+              <h3>Escolha uma atividade</h3>
+              <p class="lead">Partes iguais, comparação e equivalência.</p>
+              <div class="activity-list">
+                <button class="card activity-card" data-go="aula"><strong>Aula · Partes e o todo</strong><p>Aprenda a representar uma fração.</p></button>
+                <button class="card activity-card" data-go="aula"><strong>Prática · Monte uma fração</strong><p>Selecione partes iguais da pizza.</p></button>
+                <button class="card activity-card" data-go="aula"><strong>Prática · Compare frações</strong><p>Escolha qual valor é maior.</p></button>
+                <button class="card activity-card" data-go="aula"><strong>Prática · Frações equivalentes</strong><p>Encontre representações do mesmo valor.</p></button>
+              </div>
+            </div>
+            <div class="system-bottom" aria-hidden="true"><span class="gesture"></span></div>
+          </div>
+        </section>
+
+        <section class="view" id="aula" aria-label="Wireframe 4: Aula" hidden>
+          <div class="device">
+            <div class="system-top"><span>9:41</span><span>● ● ▰</span></div>
+            <header class="app-header"><button class="back" data-go="atividades" aria-label="Voltar às atividades">‹</button><h2>Partes e o todo</h2></header>
+            <div class="screen-content">
+              <span class="badge">Aula</span>
+              <h3>O que significa 3/4?</h3>
+              <div class="pizza-row"><div class="pizza" role="img" aria-label="Pizza dividida em quatro partes iguais, três destacadas"></div><div class="fraction" aria-label="três quartos">3<br>―<br>4</div></div>
+              <div class="card"><strong>Numerador</strong><p>Quantas partes estamos contando: 3.</p></div>
+              <div class="card"><strong>Denominador</strong><p>Em quantas partes iguais o todo foi dividido: 4.</p></div>
+              <button class="primary" data-go="exercicio">Fazer exercício</button>
+            </div>
+            <div class="system-bottom" aria-hidden="true"><span class="gesture"></span></div>
+          </div>
+        </section>
+
+        <section class="view" id="exercicio" aria-label="Wireframe 5: Exercício" hidden>
+          <div class="device">
+            <div class="system-top"><span>9:41</span><span>● ● ▰</span></div>
+            <header class="app-header"><button class="back" data-go="aula" aria-label="Voltar à aula">‹</button><h2>Monte a fração</h2></header>
+            <div class="screen-content">
+              <span class="badge">Atividade</span>
+              <h3>Selecione 3 das 4 partes iguais.</h3>
+              <div class="pizza-row"><div class="pizza pizza-half" role="img" aria-label="Representação atual: duas de quatro partes selecionadas"></div><div class="fraction">2/4</div></div>
+              <p class="lead">Partes selecionadas: 2 de 4</p>
+              <div class="choices" aria-label="Controles textuais de fatias">
+                <div class="choice"><span class="check" aria-hidden="true">✓</span><span>Fatia 1 de 4</span></div>
+                <div class="choice"><span class="check" aria-hidden="true">✓</span><span>Fatia 2 de 4</span></div>
+                <div class="choice"><span class="check" aria-hidden="true"></span><span>Fatia 3 de 4</span></div>
+                <div class="choice"><span class="check" aria-hidden="true"></span><span>Fatia 4 de 4</span></div>
+              </div>
+              <button class="primary" data-go="feedback">Conferir resposta</button>
+            </div>
+            <div class="system-bottom" aria-hidden="true"><span class="gesture"></span></div>
+          </div>
+        </section>
+
+        <section class="view" id="feedback" aria-label="Wireframe 6: Feedback" hidden>
+          <div class="device">
+            <div class="system-top"><span>9:41</span><span>● ● ▰</span></div>
+            <header class="app-header"><button class="back" data-go="exercicio" aria-label="Voltar ao exercício">‹</button><h2>Vamos pensar juntos</h2></header>
+            <div class="screen-content">
+              <span class="badge">Feedback da resposta</span>
+              <h3>Quase! Sua escolha foi 2/4.</h3>
+              <div class="pizza-row"><div class="pizza" role="img" aria-label="Exemplo visual de três partes selecionadas entre quatro"></div></div>
+              <div class="card"><strong>Para representar 3/4</strong><p>Precisamos selecionar três das quatro partes iguais. Você pode ajustar sua resposta e tentar de novo.</p></div>
+              <button class="primary" data-go="exercicio">Tentar novamente</button>
+            </div>
+            <div class="system-bottom" aria-hidden="true"><span class="gesture"></span></div>
+          </div>
+        </section>
+
+        <section class="view" id="resultado" aria-label="Wireframe 7: Resultado" hidden>
+          <div class="device">
+            <div class="system-top"><span>9:41</span><span>● ● ▰</span></div>
+            <header class="app-header"><button class="back" data-go="exercicio" aria-label="Voltar ao exercício concluído">‹</button><h2>Resultado</h2></header>
+            <div class="screen-content">
+              <div class="success">Atividade concluída</div>
+              <h3>Você representou 3/4.</h3>
+              <p class="lead">O numerador indica três partes selecionadas; o denominador indica quatro partes iguais no todo.</p>
+              <div class="card"><strong>O que você praticou</strong><p>Relacionar a fração escrita às partes iguais de uma pizza.</p></div>
+              <button class="primary" data-go="atividades">Próxima atividade</button>
+              <button class="secondary" data-go="erros">Abrir caderno de erros</button>
+              <button class="secondary" data-go="mundos">Voltar aos mundos</button>
+            </div>
+            <div class="system-bottom" aria-hidden="true"><span class="gesture"></span></div>
+          </div>
+        </section>
+
+        <section class="view" id="progresso" aria-label="Wireframe 8: Progresso" hidden>
+          <div class="device">
+            <div class="system-top"><span>9:41</span><span>● ● ▰</span></div>
+            <header class="app-header"><h2>Meu progresso</h2></header>
+            <div class="screen-content">
+              <h3>Seu caminho em frações</h3>
+              <p class="lead">Acompanhe o que você já praticou.</p>
+              <div class="card"><strong>EF06MA07 · Frações e significados</strong><p>Partes, comparação e equivalência</p><p>Dados de progresso por habilidade aparecem aqui.</p><button class="secondary" data-go="atividades">Ver atividades</button></div>
+              <div class="card"><strong>EF06MA08 · Reta e decimais</strong><p>Posição e representação decimal</p><button class="secondary" data-go="atividades">Ver atividades</button></div>
+              <button class="secondary" data-go="erros">Revisar questões no caderno</button>
+              <p class="focus-note">Indicador ilustrativo; métricas e regra de cálculo ainda não foram definidas.</p>
+            </div>
+            <nav class="bottom-nav" aria-label="Navegação principal">
+              <button class="tab" data-go="inicio">Início</button><button class="tab" data-go="mundos">Mundos</button><button class="tab" data-go="progresso" aria-current="page">Progresso</button><button class="tab" data-go="erros">Erros</button>
+            </nav>
+            <div class="system-bottom" aria-hidden="true"><span class="gesture"></span></div>
+          </div>
+        </section>
+
+        <section class="view" id="erros" aria-label="Wireframe 9: Caderno de erros" hidden>
+          <div class="device">
+            <div class="system-top"><span>9:41</span><span>● ● ▰</span></div>
+            <header class="app-header"><h2>Caderno de erros</h2></header>
+            <div class="screen-content">
+              <h3>Questões para revisar</h3>
+              <p class="lead">Rever uma questão é mais uma chance de aprender.</p>
+              <div class="card">
+                <span class="badge">Exemplo</span>
+                <strong>Qual fração é maior: 3/4 ou 2/3?</strong>
+                <p>Mundo 1 · Comparação de frações</p>
+                <button class="primary" data-go="exercicio">Refazer questão</button>
+              </div>
+              <div class="card"><strong>Sem julgamento</strong><p>O caderno é individual e não compara seu resultado com o de outras pessoas.</p></div>
+              <button class="secondary" data-go="mundos">Explorar mundos</button>
+            </div>
+            <nav class="bottom-nav" aria-label="Navegação principal">
+              <button class="tab" data-go="inicio">Início</button><button class="tab" data-go="mundos">Mundos</button><button class="tab" data-go="progresso">Progresso</button><button class="tab" data-go="erros" aria-current="page">Erros</button>
+            </nav>
+            <div class="system-bottom" aria-hidden="true"><span class="gesture"></span></div>
+          </div>
+        </section>
+
+        <section class="view" id="configuracoes" aria-label="Wireframe 10: Configurações" hidden>
+          <div class="device">
+            <div class="system-top"><span>9:41</span><span>● ● ▰</span></div>
+            <header class="app-header"><button class="back" data-go="inicio" aria-label="Voltar ao início">‹</button><h2>Configurações</h2></header>
+            <div class="screen-content">
+              <h3>Preferências de leitura</h3>
+              <div class="card setting-row"><strong>Tamanho do texto</strong><span>Seguir Android</span></div>
+              <div class="card setting-row"><strong>Movimento</strong><span>Respeitar sistema</span></div>
+              <div class="card setting-row"><strong>Tema</strong><span>Seguir sistema</span></div>
+              <div class="card"><strong>Acessibilidade</strong><p>Os ajustes de fonte e movimento do Android devem continuar funcionando no aplicativo.</p></div>
+              <div class="card"><strong>Proposta para revisão</strong><p>Preferências e comportamento nesta tela ainda não foram aprovados nem implementados.</p></div>
+              <button class="secondary" data-go="inicio">Voltar ao início</button>
+            </div>
+            <div class="system-bottom" aria-hidden="true"><span class="gesture"></span></div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <p class="caption" id="caption" aria-live="polite">Wireframe: Início · 393 dp</p>
+    <p class="page-intro">Use os seletores para revisar os dez quadros e as três larguras. A navegação interna é demonstrativa; não salva respostas nem representa funcionalidades implementadas.</p>
+  </main>
+  <script>
+    (function () {
+      var stage = document.getElementById("stage");
+      var views = Array.prototype.slice.call(document.querySelectorAll(".view"));
+      var screenSwitches = Array.prototype.slice.call(document.querySelectorAll(".screen-switch"));
+      var widthSwitches = Array.prototype.slice.call(document.querySelectorAll(".width-switch"));
+      var caption = document.getElementById("caption");
+      var width = "393";
+
+      function show(id, moveFocus) {
+        var target = document.getElementById(id);
+        if (!target || !target.classList.contains("view")) return;
+        views.forEach(function (view) { view.hidden = view !== target; });
+        screenSwitches.forEach(function (button) {
+          button.setAttribute("aria-pressed", String(button.dataset.screen === id));
+        });
+        var title = target.querySelector(".app-header h2");
+        caption.textContent = "Wireframe: " + target.getAttribute("aria-label").replace(/^Wireframe \d+: /, "") + " · " + width + " dp";
+        if (moveFocus && title) {
+          title.setAttribute("tabindex", "-1");
+          title.focus();
+        }
+      }
+
+      screenSwitches.forEach(function (button) {
+        button.addEventListener("click", function () { show(button.dataset.screen, true); });
+      });
+      widthSwitches.forEach(function (button) {
+        button.addEventListener("click", function () {
+          width = button.dataset.width;
+          stage.dataset.width = width;
+          stage.style.setProperty("--device-width", width + "px");
+          widthSwitches.forEach(function (item) {
+            item.setAttribute("aria-pressed", String(item === button));
+          });
+          caption.textContent = "Wireframe: " + document.querySelector(".view:not([hidden])").getAttribute("aria-label").replace(/^Wireframe \d+: /, "") + " · " + width + " dp";
+        });
+      });
+      document.addEventListener("click", function (event) {
+        var button = event.target.closest("[data-go]");
+        if (button) show(button.dataset.go, true);
+      });
+    }());
+  </script>
+</body>
+</html>
