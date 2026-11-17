@@ -63,7 +63,19 @@ Em atividades de montagem da fração, os controles equivalentes permitem seleci
 - **Faça:** Mantenha partes geometricamente iguais e represente a mesma fração também em texto.
 - **Evite:** Não use pizzas de tamanhos diferentes numa comparação nem exija toque preciso em cunhas pequenas.
 
-**Decisões fechadas na v1.0.0:** diâmetro padrão de 176 dp, separador de 2 dp, denominadores de 2 a 8, partes selecionadas/não selecionadas resolvidas pelos tokens `pizza.*` e interação por controles equivalentes de pelo menos 48 dp. Variações futuras devem ser registradas em nova versão do Design System.
+**Decisões da v1.0.0 preservadas:** diâmetro padrão de 176 dp, separador de 2 dp e denominadores de 2 a 8.
+
+## Aparência na referência móvel — v1.1.0
+
+- Renderize o viewBox 200 × 200 com anel externo de crosta `pizza.crust`, disco interno `color.surface` e setores radiais iguais.
+- Use `pizza.separator` nos raios e no contorno do disco; aplique `pizza.separator-width` de forma consistente.
+- Preencha fatias escolhidas com `pizza.selected`. Use coberturas `pizza.topper-pepperoni`/`pizza.topper-leaf` apenas nas fatias escolhidas; as coberturas são decorativas e nunca carregam informação necessária.
+- Para cards, use mini pizzas com tamanho derivado `card.activity-pizza`; em comparações, mantenha as duas representações iguais e identifique-as como A e B.
+- Na montagem, o protótipo permite tocar fatias e também oferece checkboxes “Fatia N de D”. Ambos devem atualizar o mesmo estado. No app Android, controles textuais de 48 dp continuam obrigatórios; toque na cunha é um atalho adicional, não substituto.
+- O resumo da fração deve ficar associado à figura. Quando outra representação numérica já aparece ao lado, não repita o mesmo `N/D` sem função.
+- Não anime continuamente as fatias. Redução de movimento deve remover animações do mascote e transições decorativas, preservando seleção e feedback.
+
+Esta composição atualiza a aparência documentada; não altera a matemática nem os limites de denominador. Medição do contraste não textual, TalkBack, texto ampliado e áreas de toque em dispositivo continuam pendentes.
 
 ## Código
 

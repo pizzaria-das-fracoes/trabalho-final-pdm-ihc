@@ -8,6 +8,7 @@ Os valores e os modos claro/escuro são resolvidos por [02-tokens.md](../02-toke
 
 - Use somente quando uma atividade exigir resposta digitada.
 - Forneça rótulo persistente e instrução curta.
+- No protótipo `docs/oi.html`, o campo de nome/apelido pertence ao fluxo de perfil. Para o app, esse uso continua **proposto**; sua presença nesta especificação visual não autoriza criar perfil, armazenamento ou coleta de dados.
 
 ## Quando não usar
 

@@ -1,7 +1,11 @@
 {
   "project": "FatiaMática",
-  "phase": "harness-only",
+  "phase": "implementation-partial",
   "appImplementationAllowed": false,
+  "implementedRFs": ["RF02","RF03","RF04","RF05","RF06","RF07","RF08","RF09","RF10","RF11","RF12"],
+  "pendingRFs": ["RF13","RF14"],
+  "activeGate": "G1",
+  "gateApproved": false,
   "designSystem": "docs/design-system",
   "designProposal": "docs/design-proposta",
   "architecture": "mvvm-sofisticado",
@@ -9,9 +13,17 @@
     "docs/engenharia/requisitos.md",
     "docs/engenharia/casos-de-uso.md",
     "docs/engenharia/matriz-bncc.md",
-    "docs/harness/04-checklist-entrega.md"
+    "docs/harness/04-checklist-entrega.md",
+    "docs/harness/07-registro-de-mudancas.md"
   ],
   "requiredSkills": [
     ".claude/skills/nova-atividade-bncc/SKILL.md"
-  ]
+  ],
+  "requiredSrcLayers": ["app","view","viewmodel","usecase","model","infra","di"],
+  "forbiddenImports": {
+    "view": ["infra"],
+    "viewmodel": ["infra"],
+    "model": ["infra","usecase","view","viewmodel"],
+    "usecase": ["infra","view","viewmodel"]
+  }
 }

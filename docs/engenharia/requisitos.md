@@ -1,8 +1,4 @@
-# Requisitos (planejados; aplicativo não implementado)
-
-## Requisitos funcionais
-
-RF01–RF12 compõem o MVP descrito na visão e no escopo. RF13–RF14 são futuros e não podem ser tratados como entregues, aceitos ou requisito de saída dos gates do MVP.
+# Requisitos funcionais (planejados; não implementados)
 
 | ID | Requisito | Prioridade | BNCC | Escopo |
 |---|---|---|---|---|

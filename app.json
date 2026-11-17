@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "FatiaMática",
+    "slug": "fatiamatica",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "fatiamatica",
+    "userInterfaceStyle": "automatic",
+    "plugins": ["expo-router"],
+    "android": {
+      "package": "com.fatiamatica.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#FFF8F4"
+      }
+    }
+  }
+}
