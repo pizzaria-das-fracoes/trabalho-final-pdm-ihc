@@ -1,0 +1,14 @@
+appId: br.edu.ifpi.fatiamatica
+---
+- launchApp
+- tapOn: "Entrar na Pizzaria"
+- tapOn: "Oficina"
+- assertVisible: "Oficina do Chef"
+- assertVisible: "30 Q"
+- tapOn: "Títulos"
+- assertVisible: "Entregador Relâmpago"
+- tapOn: "25 Q"
+- assertVisible: "5 Q"
+- assertVisible: "Ativo"
+- tapOn: "Mapa"
+- assertVisible: "Entregador Relâmpago"

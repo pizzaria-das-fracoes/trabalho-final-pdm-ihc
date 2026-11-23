@@ -1,0 +1,17 @@
+appId: br.edu.ifpi.fatiamatica
+---
+- launchApp
+- assertVisible: "Pizzaria FatiaMática"
+- tapOn: "Entrar na Pizzaria"
+- assertVisible: "Estações da Pizzaria"
+- tapOn: "Editar nome"
+- tapOn:
+    label: "Nome do Chef"
+- eraseText: 18
+- inputText: "Chef Maya"
+- tapOn: "Salvar"
+- assertVisible: "Olá, Chef Maya!"
+- tapOn: "Desligar sons do jogo"
+- assertVisible: "Mudo"
+- tapOn: "Ligar sons do jogo"
+- assertVisible: "Som"
