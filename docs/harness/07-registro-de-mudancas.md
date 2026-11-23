@@ -142,3 +142,13 @@ Não declarar conformidade visual, acessibilidade, pedagógica ou BNCC com base 
 - **Verificações:** `npm run check` — **PASSOU** (`Arquitetura OK`). Teste focal da Pizza — **PASSOU** (4 testes). Rotas `/`, `/pizza` e `/home` no Expo Web — **PASSOU** (HTTP 200).
 - **Evidência:** servidor Expo Web em `http://localhost:3000`; resultados dos comandos executados em 23/11/2026.
 - **Riscos e pendências:** validação visual do áudio e da pintura da fatia em navegador real permanece pendente; o som depende de interação do usuário e pode ser bloqueado pela política do navegador.
+
+### CHG-012 — Remoção das vozes gravadas
+
+- **Data:** 23/11/2026
+- **Escopo:** remover integralmente os arquivos MP3 de voz, os efeitos MP3 e a dependência `expo-speech`, mantendo apenas o som sintético leve de toque/acerto/erro/fanfare e hápticos do serviço existente.
+- **Rastreabilidade:** RF/RNF/UC/CA/T/EV: N/A — ajuste solicitado no modo de áudio, sem alteração das regras matemáticas ou da matriz BNCC.
+- **Arquivos:** `assets/audio/**` (removidos); `package.json`; `package-lock.json`; `src/model/entities/progress.ts`; `docs/harness/04-checklist-entrega.md`; `docs/harness/07-registro-de-mudancas.md`.
+- **Verificações:** `npm run check` — **PASSOU** (`Arquitetura OK`, `tsc --noEmit` sem erros). Varredura por `expo-speech`, `assets/audio`, `.mp3`, `audioCatalog`, `speech`, `speakPrompt`, `speakFeedback`, `voice-samples`, `VoiceStyle` e `voiceStyle` em código/manifests — **PASSOU** (nenhuma ocorrência).
+- **Evidência:** pasta `assets/audio/` removida, `expo-speech` removido dos manifests e saída real dos comandos executados em 23/11/2026.
+- **Riscos e pendências:** nenhum áudio gravado ou serviço de fala permanece; reprodução sintética no Expo Web e em dispositivo físico continua sujeita à inspeção humana.

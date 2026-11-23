@@ -13,6 +13,7 @@
 - [x] Artefatos gerados pelo Jest ignorados pelo Git (`coverage/` em `.gitignore`, registrado como `CHG-009`)
 - [x] Suíte Jest executada: 21 suítes e 76 testes (**PASSOU**, CHG-010)
 - [x] Cobertura mínima de 80% atendida: Statements 95,79%, Branches 80,14%, Functions 95,62%, Lines 97,18% (**PASSOU**, CHG-010)
+- [x] Vozes gravadas e expo-speech removidos; sons sintetizados e hápticos mantidos (**PASSOU**, CHG-012)
 - [ ] Três fluxos E2E Maestro executados em dispositivo/emulador (**NÃO EXECUTADO**: Maestro e adb indisponíveis)
 - [ ] Correção visual do som e da seleção da Pizza no navegador real (**NÃO EXECUTADO** até inspeção humana no Expo Web)
 - [ ] Evidência de tela real anexada, se houver implementação (inspeção HTTP 200 e bundle Metro 200 em Web executados; captura em aparelho Android físico **NÃO EXECUTADA**)
