@@ -2,16 +2,27 @@
   "expo": {
     "name": "FatiaMática",
     "slug": "fatiamatica",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "fatiamatica",
-    "userInterfaceStyle": "automatic",
-    "plugins": ["expo-router"],
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
     "android": {
-      "package": "com.fatiamatica.app",
+      "package": "br.edu.ifpi.fatiamatica",
       "adaptiveIcon": {
-        "backgroundColor": "#FFF8F4"
+        "backgroundColor": "#FBEAD2"
       }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "experiments": {
+      "typedRoutes": true
     }
   }
 }
