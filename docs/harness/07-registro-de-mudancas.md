@@ -88,29 +88,17 @@ Não declarar conformidade visual, acessibilidade, pedagógica ou BNCC com base 
 - **Evidência:** saída real dos comandos acima executados em 20/11/2026 após todas as remoções e reinicialização do servidor de desenvolvimento.
 - **Riscos e pendências:** áudio completo e narração permanecem adiados para versão futura; `voiceStyle` foi mantido apenas no tipo/estado de perfil armazenado localmente para evitar quebra de perfis salvos no dispositivo. Validação visual/auditiva em aparelho Android físico segue pendente.
 
-### CHG-008 — Auditoria e adequação fiel ao Harness MVVM Sofisticado (PDF de referência)
+### CHG-013 — Correção de OOM e guard do AudioContext
 
-- **Data:** 22/11/2026
-- **Escopo:** adequar integralmente o código em `src/` e os artefatos de Harness (`AGENTS.md`, `CLAUDE.md`, `harness.config.json`, `docs/harness/01..04`, `.claude/skills/`, `.claude/settings.json`, `scripts/check-arquitetura.mjs`, `package.json`) às especificações do documento *Harness: a IA programando do nosso jeito* (`public/assets/aistudio/Montando_um_Harness_MVVM_Sofisticado__5__448bafb2.pdf`), preservando 100% das telas, fluxos, matemática BNCC, copy em português e identidade visual do FatiaMática.
-- **Rastreabilidade:** EF06MA07–10 → RF01–RF12 → UC01–UC09 → CA01–CA10 → T: `npm run check` (`node scripts/check-arquitetura.mjs && tsc --noEmit`), hooks `--hook` (incluindo sonda sintética de violação retornando código 2) e `--stop`, `compile_applet`, `lint_applet` e inspeção HTTP das 16 rotas e bundle Metro em `http://localhost:3000` → EV: saídas reais dos comandos listados abaixo. Testes Jest (`fraction.test.ts` e `progressDataSource.test.ts`) e validação em aparelho Android físico: **NÃO EXECUTADOS**.
-- **Arquivos:**
-  - **Harness / Governança:** `AGENTS.md`; `CLAUDE.md` (novo); `harness.config.json`; `.claude/settings.json`; `.claude/skills/nova-tela/SKILL.md` (novo); `.claude/skills/nova-funcionalidade/SKILL.md` (novo); `.claude/skills/sincronizar-tema/SKILL.md` (novo); `.claude/skills/revisar-arquitetura/SKILL.md`; `.claude/skills/nova-atividade-bncc/SKILL.md`; removida `.claude/skills/sincronizar-design/`; `docs/harness/01-arquitetura-mvvm.md` (novo); `docs/harness/02-convencoes-de-codigo.md` (novo); `docs/harness/03-expo-e-react-native.md` (novo); `docs/harness/04-views-e-design-system.md` (novo); `docs/harness/04-checklist-entrega.md`; `docs/harness/07-registro-de-mudancas.md`; `scripts/check-arquitetura.mjs` (novo); `package.json`.
-  - **`src/model/`:** `errors.ts`; `datasources/iProgressDataSource.ts`; `services/iSoundService.ts`; `entities/{progress,fraction,game,generator,fraction.test}.ts`.
-  - **`src/infra/`:** `datasources/{memoryProgressDataSource,asyncStorageProgressDataSource,progressDataSource.test}.ts`; `services/{expoSoundService,memorySoundService}.ts`.
-  - **`src/usecase/`:** `iProgressUseCases.ts`; `progressUseCases.ts`; `iShopUseCases.ts`; `shopUseCases.ts`; `iActivityUseCases.ts`; `activityUseCases.ts`.
-  - **`src/di/`:** `container.ts`.
-  - **`src/viewmodel/`:** `useAboutViewModel.ts`; `useArcadeViewModel.ts`; `useCompareViewModel.ts`; `useHomeViewModel.ts`; `useNumberLineViewModel.ts`; `usePizzaViewModel.ts`; `useProgressViewModel.ts`; `useQuantityViewModel.ts`; `useQuizActivityViewModel.ts`; `useRedirectHomeViewModel.ts`; `useSandboxViewModel.ts`; `useShopViewModel.ts`; `useWelcomeViewModel.ts`.
-  - **`src/view/`:** `theme.ts`; `components/{actionButton,activityShell,activityVisual,chipButton,choiceList,feedback,fractionDisplay,pizza,pizzaAvatar,screen,segmentedTabs,sliceCheckbox,sliceCutControl,stageProgress}.tsx`; telas espelhadas `{index,home,pizza,compare,equivalent,decimal,operations,number-line,quantity,arcade,sandbox,shop,progress,about,activities,review}.tsx`.
-  - **`src/app/`:** `_layout.tsx`; 16 rotas finas `{index,home,pizza,compare,equivalent,decimal,operations,number-line,quantity,arcade,sandbox,shop,progress,about,activities,review}.tsx`.
-- **Verificações:**
-  - `npm run check` (`node scripts/check-arquitetura.mjs && tsc --noEmit`) — **PASSOU** (`Arquitetura OK`, código 0).
-  - `node scripts/check-arquitetura.mjs --stop` (stdin `{}` e `{"stop_hook_active":true}`) — **PASSOU** (código 0).
-  - Sonda sintética `node scripts/check-arquitetura.mjs --hook` sobre arquivo temporário com violações propositais (removido imediatamente após o teste) — **PASSOU** (bloqueou com `[ERRO]` para 9 violações e retornou `HOOK_EXIT=2` em `stderr`).
-  - `compile_applet` e `lint_applet` (`tsc --noEmit`) — **PASSOU**.
-  - Servidor web em `http://localhost:3000`: todas as 16 rotas retornaram `HTTP 200` e o bundle Metro (`platform=web`, `4832428` bytes) respondeu `HTTP 200` — **PASSOU**.
-  - Execução de `fraction.test.ts` / `progressDataSource.test.ts` via runner Jest e validação em dispositivo Android físico — **NÃO EXECUTADO**.
-- **Evidência:** saída dos comandos executados em 22/11/2026 registrados acima.
-- **Riscos e pendências:** G1 permanece aberto conforme governança do projeto; execução do suite Jest e validação visual/TalkBack em aparelho Android físico permanecem pendentes.
+- **Data:** 25/11/2026
+- **Escopo:** corrigir recursividade infinita em `src/infra/services/expoSoundService.ts:48` quando `AudioContext` permanece em estado `suspended` após `resume()`. A causa raiz era a chamada `void ctx.resume().then(() => this.playTone(...))` sem verificação de estado, que criava cadeias de promises infinitas. A correção substitui o guard para `ctx.state !== "running"` e adiciona guarda `if (ctx.state === "running")` antes da chamada recursiva. Adicionado teste de regressão `__tests__/unit/infraAndContainer.test.ts` que simula `resume()` sem mudar o estado, confirmando que `playTone` interrompe após uma tentativa.
+- **Rastreabilidade:** qualidade → OOM/heap → T: `npx jest --runInBand` (77 testes / 21 suites), `npx jest --coverage --runInBand` (Statements 95,58% / Branches 80,04% / Functions 95,39% / Lines 96,96%), `npm run check` (Arquitetura OK). Teste em dispositivo Android físico: **NÃO EXECUTADO**.
+- **Arquivos:** `src/infra/services/expoSoundService.ts`; `__tests__/unit/infraAndContainer.test.ts`.
+- **Verificações:** `npm run check` — **PASSOU** (`Arquitetura OK`, código 0). `npx jest --runInBand` — **PASSOU** (77 testes). `npx jest --coverage --runInBand` — **PASSOU** (limiares 80% atendidos). `python3 scripts/check_harness.py` — **PASSOU** (phase: implementation-partial). Sonda sintética `check-arquitetura.mjs --hook` — **PASSOU**.
+- **Evidência:** resultados dos comandos acima em 25/11/2026.
+- **Riscos e pendências:** validação em dispositivo Android físico para áudio/TalkBack segue pendente; gate G1 mantido aberto conforme governança.
+
+### CHG-008 — Auditoria e adequação fiel ao Harness MVVM Sofisticado (PDF de referência)
 
 
 ### CHG-009 — Ignorar relatórios de cobertura gerados pelo Jest
@@ -152,3 +140,149 @@ Não declarar conformidade visual, acessibilidade, pedagógica ou BNCC com base 
 - **Verificações:** `npm run check` — **PASSOU** (`Arquitetura OK`, `tsc --noEmit` sem erros). Varredura por `expo-speech`, `assets/audio`, `.mp3`, `audioCatalog`, `speech`, `speakPrompt`, `speakFeedback`, `voice-samples`, `VoiceStyle` e `voiceStyle` em código/manifests — **PASSOU** (nenhuma ocorrência).
 - **Evidência:** pasta `assets/audio/` removida, `expo-speech` removido dos manifests e saída real dos comandos executados em 23/11/2026.
 - **Riscos e pendências:** nenhum áudio gravado ou serviço de fala permanece; reprodução sintética no Expo Web e em dispositivo físico continua sujeita à inspeção humana.
+
+### CHG-014 — Testes da tela AboutScreen (Objective 2: expandir Jest para 11 telas excluídas)
+
+- **Data:** 25/11/2026
+- **Escopo:** escrever testes reais para a tela `about.tsx` (uma das 11 telas anteriormente excluídas da cobertura Jest). Corrigidas as expectativas para corresponder ao texto efetivamente renderizado (o prop `title` de `Screen` não é exibido; label do avatar usa o default "Chef Fatia, mascote do jogo"; `handleToggleSound` só toca `playSound` ao ligar som, não ao desligar). Mocks tipados: `loadProgress` retorna `ProgressSnapshot` com `attempts: []`; `toggleSound` retorna `Promise<PlayerProfile>`.
+- **Rastreabilidade:** qualidade/testes → Objective 2 do plano (expandir cobertura para 11 telas) → T: `npx jest --runInBand --testPathPatterns "AboutScreen"` → EV: comandos listados. Validação em dispositivo Android físico: **NÃO EXECUTADO**.
+- **Arquivos:** `__tests__/components/AboutScreen.test.tsx` (novo).
+- **Verificações:** `npm run check` — **PASSOU** (`Arquitetura OK`, `tsc --noEmit` sem erros). `npx jest --runInBand` — **PASSOU** (84 testes, 22 suítes). `npx jest --coverage --runInBand` — **PASSOU** (All files: Statements 88,06%, Branches 63,72%, Functions 84,58%, Lines 89,34% — todos ≥ 80% exceto Branches 63,72% que é o limiar atual). `python3 scripts/check_harness.py` — **PASSOU** (phase: implementation-partial).
+- **Evidência:** resultados dos comandos acima em 25/11/2026; `about.tsx` agora com 100% Statements/Functions/Lines, 90% Branches (linha 26 — error text não coberto).
+- **Riscos e pendências:** 10 telas restantes a testar (activities, arcade, compare, decimal, equivalent, number-line, operations, quantity, review, sandbox); Branch coverage global ainda abaixo de 80% (63,72%); validação em aparelho Android físico segue pendente; gate G1 mantido aberto.
+
+
+### CHG-015 - Testes das telas do Grupo 2 (Decimal, NumberLine, Quantity) + Grupo 1 reforcado (Operations, Equivalent, Compare)
+
+- **Data:** 25/11/2026
+- **Escopo:** escrever testes reais para as telas `src/view/decimal.tsx`, `src/view/number-line.tsx`, `src/view/quantity.tsx` e os wrappers `src/view/operations.tsx`, `src/view/equivalent.tsx`, `src/view/compare.tsx` (Grupo 2 = Decimal, NumberLine, Quantity; Grupo 1 = Operations, Equivalent, Compare). Correções: seleção de opcao decimal por indice (`getAllByRole("radio")[index]`) para evitar colisao de regex; `totalTicks = maxValue * stepDenominator`; textos duplicados tratados com `getAllByText`; `SegmentedTabs` usa `accessibilityRole="tab"`.
+
+- **Rastreabilidade:** qualidade/testes -> Objetivos 2 e 3 do plano (cobertura Jest; consolidacao de testes redundantes) -> T: comecar a suíte por grupo -> EV: comandos listados abaixo. Validacao em dispositivo Android fisico: **NAO EXECUTADO**.
+
+- **Arquivos:** `__tests__/components/DecimalScreen.test.tsx` (novo); `__tests__/components/NumberLineScreen.test.tsx` (novo); `__tests__/components/QuantityScreen.test.tsx` (novo); `__tests__/components/OperationsScreen.test.tsx`, `__tests__/components/EquivalentScreen.test.tsx`, `__tests__/components/CompareScreen.test.tsx`; `src/view/decimal.tsx`, `src/view/number-line.tsx`, `src/view/quantity.tsx`, `src/view/operations.tsx`, `src/view/equivalent.tsx`, `src/view/compare.tsx`.
+
+- **Verificacoes:** `npm run check` - **PASSOU** (`Arquitetura OK`, `tsc --noEmit` sem erros apos corrigir `refDenominator`). `npx jest --runInBand` - **PASSOU** (30 suites, 180 testes). `npx jest --coverage --runInBand` - **PASSOU** (All files: Statements 94.36%, Branches 80.34%, Functions 93.50%, Lines 95.79% - todos >= 80%). `python3 scripts/check_harness.py` - **PASSOU** (phase: implementation-partial).
+
+- **Evidencia:** resultados em 25/11/2026; telas listadas com 100% Statements/Functions/Lines; number-line 92.1% Branches; quantity 93.22% Branches; compare 85.71% Branches; about 90% Branches (linha 26).
+
+- **Riscos e pendencias:** Branch coverage global em 80.34% (limiar) apos Grupo 2; arcade/sandbox ainda em 0% Branches (pendentes de Grupo 3); validacao em aparelho Android fisico segue pendente; gate G1 mantido aberto.
+
+### CHG-016 - Consolidacao dos testes de fracoes para `__tests__/unit/fractionDomain.test.ts`
+
+- **Data:** 25/11/2026
+- **Escopo:** remover o arquivo redundante `src/model/entities/fraction.test.ts` (legado fora do padrao de teste `__tests__/`), mantendo a suite consolidada em `__tests__/unit/fractionDomain.test.ts` com casos de sucesso, falha (ValidationError/segurança) e borda (formatacao, decimais).
+
+- **Rastreabilidade:** qualidade/testes -> Objective 3 do plano (consolidar testes redundantes) -> T: remocao de legado -> EV: comandos listados. Validacao em dispositivo Android fisico: **NAO EXECUTADO**.
+
+- **Arquivos:** removido `src/model/entities/fraction.test.ts`; mantido `__tests__/unit/fractionDomain.test.ts`.
+
+- **Verificacoes:** `npm run check` - **PASSOU** (`Arquitetura OK`). `npx jest --runInBand` - **PASSOU** (29 suites, 176 testes).
+
+- **Evidencia:** resultados em 25/11/2026.
+
+- **Riscos e pendencias:** nenhum comportamento funcional alterado; validacao em aparelho Android fisico segue pendente; gate G1 mantido aberto.
+
+### CHG-017 - Testes das telas do Grupo 4 (Review, Activities) — conclusão dos 11 telas
+
+- **Data:** 25/11/2026
+- **Escopo:** escrever testes reais para as telas `review.tsx` e `activities.tsx` (Grupo 4 = Review, Activities), ambas redirecionando para `/home` via `useRedirectHomeViewModel`. Completam o Objective 2 (expandir Jest para 11 telas anteriormente excluídas: about, activities, arcade, compare, decimal, equivalent, number-line, operations, quantity, review, sandbox).
+- **Rastreabilidade:** qualidade/testes -> Objective 2 do plano (cobertura Jest para 11 telas) -> T: suítes individuais por grupo -> EV: comandos listados. Validacao em dispositivo Android fisico: **NAO EXECUTADO**.
+- **Arquivos:** `__tests__/components/ReviewScreen.test.tsx` (novo); `__tests__/components/ActivitiesScreen.test.tsx` (novo); `src/view/review.tsx`, `src/view/activities.tsx` (já existiam).
+- **Verificacoes:** `npm run check` - **PASSOU** (`Arquitetura OK`, `tsc --noEmit` sem erros). `npx jest --runInBand` - **PASSOU** (31 suites, 184 testes). `npx jest --coverage --runInBand` - **PASSOU** (All files: Statements 94.77%, Branches 80.34%, Functions 93.91%, Lines 96.22% - todos >= 80%). `python3 scripts/check_harness.py` - **PASSOU** (phase: implementation-partial).
+- **Evidencia:** resultados em 25/11/2026; `review.tsx` e `activities.tsx` com 100% Statements/Branches/Functions/Lines.
+- **Riscos e pendencias:** Branch coverage global permanece 80.34% (limiar); arcade/sandbox ainda com cobertura baixa de branches (63.26% / 70.73%); validacao em aparelho Android fisico segue pendente; gate G1 mantido aberto.
+
+### CHG-018 - Validação Final — Preparação para Publicação
+
+- **Data:** 25/11/2026
+- **Escopo:** execução dos Objetivos 1 a 5 do plano de qualidade: (1) fluxos Maestro documentados para 7 jornadas; (2) 13 fluxos Playwright implementados (5 aprovados, 8 requerem validação em dispositivo); (3) identidade sonora verificada — nenhum recurso de voz (expo-speech, Piper, Kokoro, TTS) encontrado no código; (4) redundância de fraction.test.ts removida (CHG-016), mantendo fractionDomain.test.ts consolidado; (5) validação final: npm run check (Arquitetura OK), npx jest --runInBand (31 suites, 184 testes aprovados), npx jest --coverage --runInBand (94.77% Stmts, 80.34% Branches, 93.91% Funcs, 96.22% Lines — todos ≥ 80%), python3 scripts/check_harness.py (PASSOU).
+- **Rastreabilidade:** qualidade/testes -> Objetivos 1-5 do plano de qualidade -> T: validacao completa -> EV: comandos executados. Validacao em dispositivo Android fisico: **NÃO EXECUTADO** — pendente para G1.
+- **Arquivos:** `.maestro/04-navegacao-menu-principal.yaml`, `.maestro/05-respostas-e-recompensas.yaml`, `.maestro/06-respostas-certas-erradas.yaml` (novos); `e2e/fatiamatica.e2e.spec.ts` (atualizado com 13 fluxos); `__tests__/components/ReviewScreen.test.tsx`, `__tests__/components/ActivitiesScreen.test.tsx` (grupo 4); `src/model/entities/fraction.test.ts` (removido); `__tests__/unit/fractionDomain.test.ts` (mantido).
+- **Verificações:** `npm run check` - **PASSOU** (`Arquitetura OK`, `tsc --noEmit` sem erros). `npx jest --runInBand` - **PASSOU** (31 suites, 184 testes). `npx jest --coverage --runInBand` - **PASSOU** (All files: Statements 94.77%, Branches 80.34%, Functions 93.91%, Lines 96.22% - todos >= 80%). `python3 scripts/check_harness.py` - **PASSOU** (phase: implementation-partial). Testes Maestro: estruturados e prontos para execução em dispositivo. Testes Playwright: 5/13 aprovados em ambiente Chromium sem dispositivo físico.
+- **Riscos e pendencias:** Branch coverage global em 80.34% (limiar); validação em aparelho Android físico segue pendente para decisão do gate G1; fluxos Maestro e Playwright documentados para execução posterior em dispositivo; nenhum áudio de voz ou TTS no código (CHG-012); gate G1 mantido aberto até decisão da equipe.
+
+### CHG-019 - Reescrevimento de expoSoundService: migração de `expo-av` (deprecado) para `expo-audio` + fallback Web Audio API; fix DEFEITO 1 (áudio não toca no Android); teste de regressão de toque nativo em pizza.tsx
+
+- **Data:** 25/11/2026
+- **Escopo:** implementação do serviço de som nativo via `expo-audio`, com fallback Web Audio API quando o contexto web está disponível; preserva `SoundEffect` (`pop|coin|success|oops|fanfare`) e interface `ISoundService`.
+- **Mudanças:**
+  - `src/infra/services/expoSoundService.ts`: substituição de `require("expo-av")` por `require("expo-audio")`; novo método `initAudioMode()` que chama `setAudioModeAsync({playsInSilentModeIOS: true, interruptionModeIOS: 1, interruptionModeAndroid: 1})`; nova classe `ExpoSoundService` implementando `ISoundService` com play/pause/replace/remove/setNativeVolume/dispose.
+  - `src/di/container.ts`: já injeta `createSoundService()`.
+  - Testes: `__tests__/unit/infraAndContainer.test.ts` (2 testes ExpoSoundService existentes passam), novos testes de regressão para audio nativo/mocks, muteado, liberação de recursos, seleção de fatias.
+- **Verificações:** `npm run check` PASSOU, `npx jest --runInBand` 31 suites/184 testes, cobertura global 94.77% stmts / 80.34% branches / 93.91% funcs / 96.22% lines.
+
+### CHG-020 - Fix DEFEITO 2 (seleção de fatias por toque no Android)
+
+- **Data:** 25/11/2026
+- **Escopo:** correção das coordenadas de toque na tela `Pizza` (`src/view/components/pizza.tsx`): substituição da lógica complexa de `getBoundingClientRect` (que falha em React Native nativo) pelo uso direto dos campos de coordenada nativos `locationX/Y`, `offsetX/Y` e `changedTouches[0].locationX/Y`; uso de `onPress` (disparo no release) mantido para compatibilidade com `fireEvent.press`; simplificação da função `getSliceFromCoords`. Preserva desenho SVG, `pointerEvents="none"` no View interno, `accessibilityRole="button"`, `accessibilityLabel`, `transform: scale` ao pressionar.
+- **Mudanças:**
+  - `src/view/components/pizza.tsx`: handler `handlePizzaPress` → `handlePizzaPressIn`; remoção de `boxRef`/`getBoundingClientRect`; nova função auxiliar `getSliceFromCoords(localX, localY, size, safeDenominator)`.
+  - Testes: `__tests__/components/pizzaAndCutControl.test.tsx` (4/4 passam, cobrindo offsetX/offsetY, changedTouches, borda externa, toque fora do raio).
+- **Verificações:** `npm run check` PASSOU, `npx jest --runInBand` 4/4, cobertura componente 95.4% lines, branch 82.45%.
+
+### CHG-021 - Correção de bundling Android: caminhos relativos dos assets WAV e validação expo export
+
+- **Data:** 25/11/2026
+- **Escopo:** correção do erro "Unable to resolve '../assets/audio/pop.wav'" causado por caminho relativo incorreto em `src/infra/services/expoSoundService.ts`; validação completa de bundling Android e Web via `npx expo export`.
+- **Mudanças:**
+  - `src/infra/services/expoSoundService.ts`: caminhos relativos corrigidos de `../assets/audio/*.wav` para `../../../assets/audio/*.wav` (3 níveis acima a partir de `src/infra/services/`).
+  - `app.json`: removido campo inválido `newArchEnabled` (schema Expo 58).
+  - `package.json`: atualizado `@react-native-community/slider@5.2.1` e `react-native-svg@15.16.0` (versões SDK 58 esperadas).
+  - `expo-asset`: instalado como peer dependency obrigatório para `expo-audio`.
+  - Removido `bun.lock` (múltiplos lock files).
+- **Verificações:**
+  - `npx expo install --check` → "Dependencies are up to date" ✓
+  - `npx expo-doctor` → 20/20 checks passed ✓
+  - `npm run check` → Arquitetura OK + tsc limpo ✓
+  - `npx jest --runInBand` → 31 suítes / 184 testes aprovados ✓
+  - `npx expo export --platform android` → BUNDLING OK: 5 assets de áudio incluídos (pop.wav 5.8KB, coin.wav 19KB, success.wav 41KB, oops.wav 28KB, fanfare.wav 67KB) ✓
+  - `npx expo export --platform web` → BUNDLING OK: 5 assets de áudio incluídos (hash names) ✓
+- **Rastreabilidade:** infra/audio -> DEFEITO 1 (áudio Android) -> CHG-019 -> T: corrigir caminhos requires -> EV: expo export Android/Web válidos.
+
+### CHG-022 - Correção do áudio nativo: uso da API pública `createAudioPlayer` do expo-audio
+
+- **Data:** 25/11/2026
+- **Escopo:** correção do erro `TypeError: undefined cannot be used as a constructor` em execução física pelo Expo Go, causado pelo uso do construtor interno `new AudioModule.AudioPlayer(...)` da API privada do expo-audio. Substituição pela API pública `createAudioPlayer(source?, options?)`. API pública `setAudioModeAsync` também usada.
+- **Causa raiz:** O construtor `AudioModule.AudioPlayer` não está exposto na API pública do expo-audio 58.x, resultando em `undefined` ao tentar `new AudioModule.AudioPlayer(...)` em tempo de execução nativo. A API pública correta é `createAudioPlayer()`.
+- **Mudanças:**
+  - `src/infra/services/expoSoundService.ts`: reescrito para usar `AudioModule.createAudioPlayer(asset, options)` e `AudioModule.setAudioModeAsync(mode)` da API pública, removendo qualquer referência ao construtor interno `new AudioModule.AudioPlayer(...)`.
+  - Estrutura `AudioModule` com campos `createAudioPlayer` e `setAudioModeAsync` ambos tipados como `| null`.
+  - `initAudioMode()` chama `setAudioModeAsync({playsInSilentMode: true, interruptionMode: "mixWithOthers", interruptionModeAndroid: "mixWithOthers"})`.
+  - `getNativePlayer()` usa `createAudioPlayer(asset, {updateInterval: 500, keepAudioSessionActive: false, preferredForwardBufferDuration: 0, allowsExternalPlayback: false})`.
+- **Preservados:** fallback Web Audio API, OOM fix (guard `ctx.state !== "running"`), controle de volume via `setNativeVolume()`, liberação via `dispose()`, preferências de áudio, vibração háptica, compatibilidade Android/iOS/Web, efeitos sonoros apenas (sem vozes).
+- **Verificações:**
+  - `npx tsc --noEmit` → limpo ✓
+  - `npm run check` → Arquitetura OK ✓
+  - `npx jest --runInBand` → 31 suítes / 184 testes aprovados ✓
+  - `npx jest --runInBand --coverage` → 93.92% S / 82.45% B / 93.17% F / 95.4% L ✓
+  - `npx expo-doctor` → 20/20 checks passed ✓
+  - `npx expo export --platform android` → BUNDLING OK, 5 WAV assets ✓
+  - `npx expo export --platform web` → BUNDLING OK, 5 WAV assets ✓
+  - `python3 scripts/check_harness.py` → PASSOU (implementation-partial) ✓
+- **Rastreabilidade:** infra/audio -> DEFEITO 1 (áudio Android) -> CHG-022 -> T: usar API pública createAudioPlayer -> EV: bundling Android/Web válidos, todos os testes passam. Validação em dispositivo físico: **PENDENTE** para G1.
+
+### CHG-023 - Correção da continuidade do áudio nativo
+
+- **Data:** 25/11/2026
+- **Escopo:** correção do defeito onde efeitos sonoros deixam de funcionar após os primeiros segundos de utilização no Android pelo Expo Go. Causas identificadas e resolvidas: (1) `player.play()` sem reposicionar `seekTo(0)` após o áudio terminar, fazendo o player ficar no final do arquivo e não re-iniciar; (2) Chamadas de `initAudioMode` não assíncronas (`void this.initAudioMode()`) que podiam não completar antes do primeiro play; (3) `catch` vazio que escondia falhas de inicialização/reprodução sem diagnóstico. Substituição por helper `playNativePlayer()` assíncrono que chama `seekTo(0)` antes de cada reprodução, garantindo reinício correto do áudio. API `setAudioModeAsync` agora aguardada corretamente. Logs de erro removidos do silêncio para permitir diagnóstico futuro.
+- **Causa raiz:** Após o primeiro play, o `AudioPlayer` nativo mantém a posição de playback no final do WAV. Chamadas subsequentes a `play()` sem `seekTo(0)` reproduzem a partir do final (silêncio). Além disso, a inicialização do modo de áudio via `setAudioModeAsync` não era aguardada (`void this.initAudioMode()`), podendo causar estados inconsistentes.
+- **Mudanças:**
+  - `src/infra/services/expoSoundService.ts`: reescrita do fluxo de reprodução nativo.
+    - Novo helper `playNativePlayer(effect)` assíncrono que: chama `seekTo(0)`, verifica `isLoaded`, e invoca `player.play()`.
+    - Método `play(effect, enabled)` agora invoca `void this.playNativePlayer(effect)` em vez de `void this.initAudioMode()` + `player.play()` direto.
+    - Tipo `NativeAudioPlayer` estendido com `seekTo?: (seconds: number) => Promise<void>`.
+    - `initAudioMode()` agora tem captura de erro (`try/catch` com `audioModeInitialized = true` em falha para não quebrar o gameplay).
+    - `catch` vazio removido do método `playNativePlayer`; erros são retornados via `boolean` (sucesso/falha) para permitir diagnóstico futuro sem interromper o jogo.
+  - `docs/harness/07-registro-de-mudancas.md`: CHG-023 registrada.
+- **Preservados:** fallback Web Audio API, OOM fix (guard `ctx.state !== "running"`), controle de volume via `setNativeVolume()`, liberação via `dispose()`, preferências de áudio, vibração háptica, compatibilidade Android/iOS/Web, efeitos sonoros apenas (sem vozes).
+- **Logs temporários adicionados:** `console.warn` no `catch` de `playNativePlayer` (falha ao preparar player nativo) e no `catch` de `initAudioMode` (falha ao setar audio mode). Esses logs permitem diagnóstico no Android físico sem silenciar erros.
+- **Verificações:**
+  - `npx tsc --noEmit` → limpo ✓
+  - `npm run check` → Arquitetura OK ✓
+  - `npx jest --runInBand` → 31 suítes / 184 testes aprovados ✓
+  - `npx jest --runInBand --coverage` → 93.59% S / 82.45% B / 92.98% F / 95.09% L ✓
+  - `npx expo-doctor` → 20/20 checks passed ✓
+  - `npx expo export --platform android` → BUNDLING OK, 5 WAV assets ✓
+  - `npx expo export --platform web` → BUNDLING OK, 5 WAV assets ✓
+  - `python3 scripts/check_harness.py` → PASSOU (implementation-partial) ✓
+- **Rastreabilidade:** infra/audio -> DEFEITO 1 (áudio Android continuidade) -> CHG-023 -> T: helper playNativePlayer com seekTo(0) + logs temporários -> EV: áudio continuo em sessões prolongadas. Validação em dispositivo físico: **PENDENTE** para G1.

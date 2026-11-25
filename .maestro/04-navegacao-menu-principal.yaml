@@ -1,0 +1,57 @@
+appId: br.edu.ifpi.fatiamatica
+---
+- launchApp
+- assertVisible: "Pizzaria FatiaMática"
+- tapOn: "Entrar na Pizzaria"
+- assertVisible: "Estações da Pizzaria"
+- tapOn:
+    label: "Monte a Pizza"
+- assertVisible: "Pedido 1/4"
+- tapOn:
+    label: "Voltar para o Mapa"
+- tapOn:
+    label: "Duelo de Pizzas"
+- assertVisible: "Duelo de Pizzas"
+- tapOn:
+    label: "Voltar para o Mapa"
+- tapOn:
+    label: "Fornada Equivalente"
+- assertVisible: "Fornada Equivalente"
+- tapOn:
+    label: "Voltar para o Mapa"
+- tapOn:
+    label: "Pista do Entregador"
+- assertVisible: "Pista do Entregador"
+- tapOn:
+    label: "Voltar para o Mapa"
+- tapOn:
+    label: "Fábrica de Decimais"
+- assertVisible: "Fábrica de Decimais"
+- tapOn:
+    label: "Voltar para o Mapa"
+- tapOn:
+    label: "Festa dos Pedidos"
+- assertVisible: "Festa dos Pedidos"
+- tapOn:
+    label: "Voltar para o Mapa"
+- tapOn:
+    label: "Receita Secreta"
+- assertVisible: "Receita Secreta"
+- tapOn:
+    label: "Voltar para o Mapa"
+- tapOn:
+    label: "Abrir Duelo Relâmpago"
+- assertVisible: "Duelo Relâmpago"
+- tapOn:
+    label: "Voltar para o Mapa"
+- tapOn:
+    label: "Abrir Bancada Mágica"
+- assertVisible: "Bancada Mágica"
+- tapOn:
+    label: "Voltar para o Mapa"
+- tapOn:
+    label: "Abrir Oficina do Chef"
+- assertVisible: "Oficina do Chef"
+- tapOn:
+    label: "Mapa"
+- assertVisible: "Estações da Pizzaria"

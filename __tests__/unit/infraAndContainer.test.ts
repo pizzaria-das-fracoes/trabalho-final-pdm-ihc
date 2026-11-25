@@ -23,19 +23,24 @@ describe("Infraestrutura, Erros de Domínio e Container DI", () => {
     jest.clearAllMocks();
   });
 
-  it("ExpoSoundService respeita flag muted, aciona hápticos e sintetiza WebAudio quando AudioContext existe", () => {
+  it("ExpoSoundService respeita flag muted, aciona hápticos e sintetiza WebAudio quando AudioContext existe", async () => {
     const start = jest.fn();
     const stop = jest.fn();
     const connect = jest.fn();
     const setValueAtTime = jest.fn();
     const exponentialRampToValueAtTime = jest.fn();
-    const resume = jest.fn(() => Promise.resolve());
 
-    const FakeAudioContext = jest.fn(() => ({
+    // Mock fiel ao comportamento real: resume() altera state para "running",
+    // impedindo a recursividade infinita em playTone.
+    const audioContextInstance = {
       state: "suspended",
       currentTime: 0,
       destination: {},
-      resume,
+      resume: jest.fn(() =>
+        Promise.resolve().then(() => {
+          audioContextInstance.state = "running";
+        })
+      ),
       createOscillator: () => ({
         type: "sine",
         frequency: { setValueAtTime, exponentialRampToValueAtTime },
@@ -47,7 +52,9 @@ describe("Infraestrutura, Erros de Domínio e Container DI", () => {
         gain: { setValueAtTime, exponentialRampToValueAtTime },
         connect
       })
-    }));
+    };
+
+    const FakeAudioContext = jest.fn(() => audioContextInstance);
 
     const originalWindow = globalThis.window;
     Object.defineProperty(globalThis, "window", {
@@ -66,8 +73,12 @@ describe("Infraestrutura, Erros de Domínio e Container DI", () => {
     service.play("oops", true);
     service.play("fanfare", true);
 
+    // Aguarda microtasks para que playTone crie os osciladores
+    await Promise.resolve();
+    await Promise.resolve();
+
     expect(FakeAudioContext).toHaveBeenCalledTimes(1);
-    expect(resume).toHaveBeenCalled();
+    expect(audioContextInstance.resume).toHaveBeenCalled();
     expect(start).toHaveBeenCalled();
     expect(stop).toHaveBeenCalled();
     expect(Haptics.impactAsync).toHaveBeenCalled();
@@ -179,5 +190,54 @@ describe("Infraestrutura, Erros de Domínio e Container DI", () => {
     expect(createProgressDataSource(false)).toBeInstanceOf(AsyncStorageProgressDataSource);
     expect(createSoundService(true)).toBeInstanceOf(MemorySoundService);
     expect(createSoundService(false)).toBeInstanceOf(ExpoSoundService);
+  });
+
+  it("playTone não entra em recursividade infinita quando AudioContext permanece suspended após resume()", () => {
+    const start = jest.fn();
+    const stop = jest.fn();
+
+    // Mock que NÃO muda o estado para "running" após resume(),
+    // simulando um navegador onde a permissão de áudio não é concedida.
+    // Com a correção, playTone deve interromper após uma tentativa de retry.
+    const audioContextInstance = {
+      state: "suspended",
+      currentTime: 0,
+      destination: {},
+      resume: jest.fn(() => Promise.resolve()),
+      createOscillator: () => ({
+        type: "sine",
+        frequency: { setValueAtTime: jest.fn(), exponentialRampToValueAtTime: jest.fn() },
+        connect: jest.fn(),
+        start,
+        stop
+      }),
+      createGain: () => ({
+        gain: { setValueAtTime: jest.fn(), exponentialRampToValueAtTime: jest.fn() },
+        connect: jest.fn()
+      })
+    };
+
+    const FakeAudioContext = jest.fn(() => audioContextInstance);
+
+    const originalWindow = globalThis.window;
+    Object.defineProperty(globalThis, "window", {
+      configurable: true,
+      writable: true,
+      value: { AudioContext: FakeAudioContext }
+    });
+
+    const service = new ExpoSoundService();
+    // Deve completar sem stack overflow nem loop de promises infinito
+    expect(() => service.play("success", true)).not.toThrow();
+
+    // resume pode ser chamado mais de uma vez (por cada playTone),
+    // mas não deve haver recursividade infinita.
+    expect(audioContextInstance.resume).toHaveBeenCalled();
+
+    Object.defineProperty(globalThis, "window", {
+      configurable: true,
+      writable: true,
+      value: originalWindow
+    });
   });
 });

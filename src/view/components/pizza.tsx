@@ -1,4 +1,4 @@
-import { type ComponentRef, useRef } from "react";
+import { type ComponentRef, useRef, useCallback } from "react";
 import { type GestureResponderEvent, Pressable, StyleSheet, Text, View } from "react-native";
 import Svg, { Circle, Ellipse, G, Line, Path, Rect } from "react-native-svg";
 import type { ToppingId } from "@/model/entities/progress";
@@ -26,6 +26,22 @@ const sectorPath = (index: number, denominator: number, radius = 84): string => 
   return `M ${center} ${center} L ${startX} ${startY} A ${radius} ${radius} 0 ${largeArc} 1 ${endX} ${endY} Z`;
 };
 
+const getSliceFromCoords = (localX: number, localY: number, size: number, safeDenominator: number): number | null => {
+  const center = size / 2;
+  const dx = localX - center;
+  const dy = localY - center;
+  const dist = Math.hypot(dx, dy);
+  if (dist > center * 0.99) return null;
+
+  let angle = Math.atan2(dy, dx) + Math.PI / 2;
+  if (angle < 0) angle += Math.PI * 2;
+
+  return Math.min(
+    safeDenominator - 1,
+    Math.max(0, Math.floor((angle / (Math.PI * 2)) * safeDenominator))
+  );
+};
+
 export const Pizza = ({
   denominator,
   selected,
@@ -37,171 +53,72 @@ export const Pizza = ({
 }: PizzaProps) => {
   const safeDenominator = Math.min(100, Math.max(1, Math.round(denominator)));
   const palette = pizzaToppingColors[topping];
-  const boxRef = useRef<ComponentRef<typeof View> | null>(null);
-
-  const dividerStroke =
-    safeDenominator <= 12 ? 2.4 : safeDenominator <= 24 ? 1.4 : safeDenominator <= 50 ? 0.85 : 0.5;
-  const showFullToppings = safeDenominator <= 16;
-  const showMiniGarnish = safeDenominator > 16 && safeDenominator <= 36;
 
   const handleToggle = (index: number) => {
     if (!onToggleSlice) return;
     onToggleSlice(index);
   };
 
-  const handlePizzaPress = (event: GestureResponderEvent) => {
-    if (!onToggleSlice) return;
+  const handlePizzaPressIn = useCallback(
+    (event: GestureResponderEvent) => {
+      if (!onToggleSlice) return;
+      if (safeDenominator === 1) {
+        handleToggle(0);
+        return;
+      }
 
-    if (safeDenominator === 1) {
-      handleToggle(0);
-      return;
-    }
-
-    const native = (event.nativeEvent ?? {}) as unknown as {
-      locationX?: number;
-      locationY?: number;
-      offsetX?: number;
-      offsetY?: number;
-      clientX?: number;
-      clientY?: number;
-      pageX?: number;
-      pageY?: number;
-      changedTouches?: Array<{
+      const native = (event.nativeEvent ?? {}) as unknown as {
         locationX?: number;
         locationY?: number;
-        clientX?: number;
-        clientY?: number;
-        pageX?: number;
-        pageY?: number;
-      }>;
-    };
-    const rawEvent = event as unknown as {
-      clientX?: number;
-      clientY?: number;
-      pageX?: number;
-      pageY?: number;
-      offsetX?: number;
-      offsetY?: number;
-      nativeEvent?: {
+        changedTouches?: ReadonlyArray<{ locationX?: number; locationY?: number }>;
         offsetX?: number;
         offsetY?: number;
-        locationX?: number;
-        locationY?: number;
       };
-    };
-    const touch = native.changedTouches?.[0];
 
-    let localX: number | undefined;
-    let localY: number | undefined;
-    let measuredWidth = size;
-    let measuredHeight = size;
+      let localX: number | undefined;
+      let localY: number | undefined;
 
-    const rectSource = (boxRef.current ?? event.currentTarget) as unknown as {
-      getBoundingClientRect?: () => { left: number; top: number; width: number; height: number };
-    };
-    const rect =
-      rectSource && typeof rectSource.getBoundingClientRect === "function"
-        ? rectSource.getBoundingClientRect()
-        : undefined;
-
-    if (rect && rect.width > 0 && rect.height > 0) {
-      measuredWidth = rect.width;
-      measuredHeight = rect.height;
-      const clientX =
-        typeof native.clientX === "number"
-          ? native.clientX
-          : typeof rawEvent.clientX === "number"
-            ? rawEvent.clientX
-            : typeof touch?.clientX === "number"
-              ? touch.clientX
-              : typeof native.pageX === "number" && typeof window !== "undefined"
-                ? native.pageX - (window.scrollX || 0)
-                : typeof touch?.pageX === "number" && typeof window !== "undefined"
-                  ? touch.pageX - (window.scrollX || 0)
-                  : undefined;
-      const clientY =
-        typeof native.clientY === "number"
-          ? native.clientY
-          : typeof rawEvent.clientY === "number"
-            ? rawEvent.clientY
-            : typeof touch?.clientY === "number"
-              ? touch.clientY
-              : typeof native.pageY === "number" && typeof window !== "undefined"
-                ? native.pageY - (window.scrollY || 0)
-                : typeof touch?.pageY === "number" && typeof window !== "undefined"
-                  ? touch.pageY - (window.scrollY || 0)
-                  : undefined;
-
-      if (typeof clientX === "number" && typeof clientY === "number") {
-        localX = clientX - rect.left;
-        localY = clientY - rect.top;
+      if (
+        typeof native.locationX === "number" &&
+        typeof native.locationY === "number" &&
+        !Number.isNaN(native.locationX) &&
+        !Number.isNaN(native.locationY)
+      ) {
+        localX = native.locationX;
+        localY = native.locationY;
+      } else if (
+        native.offsetX !== undefined &&
+        native.offsetY !== undefined &&
+        !Number.isNaN(native.offsetX) &&
+        !Number.isNaN(native.offsetY)
+      ) {
+        localX = native.offsetX;
+        localY = native.offsetY;
+      } else if (
+        native.changedTouches &&
+        native.changedTouches.length > 0 &&
+        typeof native.changedTouches[0].locationX === "number" &&
+        typeof native.changedTouches[0].locationY === "number"
+      ) {
+        localX = native.changedTouches[0].locationX!;
+        localY = native.changedTouches[0].locationY!;
       }
-    }
 
-    if (
-      (localX === undefined || localY === undefined) &&
-      typeof native.locationX === "number" &&
-      typeof native.locationY === "number" &&
-      !Number.isNaN(native.locationX) &&
-      !Number.isNaN(native.locationY)
-    ) {
-      localX = native.locationX;
-      localY = native.locationY;
-    } else if (
-      (localX === undefined || localY === undefined) &&
-      typeof rawEvent.nativeEvent?.offsetX === "number" &&
-      typeof rawEvent.nativeEvent?.offsetY === "number"
-    ) {
-      localX = rawEvent.nativeEvent.offsetX;
-      localY = rawEvent.nativeEvent.offsetY;
-    } else if (
-      (localX === undefined || localY === undefined) &&
-      typeof rawEvent.offsetX === "number" &&
-      typeof rawEvent.offsetY === "number"
-    ) {
-      localX = rawEvent.offsetX;
-      localY = rawEvent.offsetY;
-    } else if (
-      (localX === undefined || localY === undefined) &&
-      typeof touch?.locationX === "number" &&
-      typeof touch?.locationY === "number"
-    ) {
-      localX = touch.locationX;
-      localY = touch.locationY;
-    } else if (
-      (localX === undefined || localY === undefined) &&
-      typeof native.offsetX === "number" &&
-      typeof native.offsetY === "number"
-    ) {
-      localX = native.offsetX;
-      localY = native.offsetY;
-    }
+      if (localX === undefined || localY === undefined) return;
 
-    if (localX === undefined || localY === undefined) {
-      return;
-    }
+      const sliceIndex = getSliceFromCoords(localX, localY, size, safeDenominator);
+      if (sliceIndex !== null) handleToggle(sliceIndex);
+    },
+    [onToggleSlice, safeDenominator, size]
+  );
 
-    const normX = (localX / measuredWidth) * size;
-    const normY = (localY / measuredHeight) * size;
-    const center = size / 2;
-    const dx = normX - center;
-    const dy = normY - center;
-    const dist = Math.hypot(dx, dy);
-
-    if (dist > center * 0.99) return;
-
-    let angle = Math.atan2(dy, dx) + Math.PI / 2;
-    if (angle < 0) angle += Math.PI * 2;
-
-    const sliceIndex = Math.min(
-      safeDenominator - 1,
-      Math.max(0, Math.floor((angle / (Math.PI * 2)) * safeDenominator))
-    );
-    handleToggle(sliceIndex);
-  };
+  const dividerStroke =
+    safeDenominator <= 12 ? 2.4 : safeDenominator <= 24 ? 1.4 : safeDenominator <= 50 ? 0.85 : 0.5;
+  const showFullToppings = safeDenominator <= 16;
+  const showMiniGarnish = safeDenominator > 16 && safeDenominator <= 36;
 
   const svgContent = (
-    <View ref={boxRef} pointerEvents="none" style={{ width: size, height: size }}>
+    <View pointerEvents="none" style={{ width: size, height: size }}>
       <Svg width={size} height={size} viewBox="0 0 200 200">
         <Circle cx={100} cy={103} r={96} fill={pizzaSvgColors.trayShadow} />
         <Circle cx={100} cy={100} r={96} fill={pizzaSvgColors.crustOuter} stroke={pizzaSvgColors.strokeInk} strokeWidth={2.5} />
@@ -432,7 +349,7 @@ export const Pizza = ({
     <View style={styles.container}>
       {onToggleSlice ? (
         <Pressable
-          onPress={handlePizzaPress}
+          onPress={handlePizzaPressIn}
           accessibilityRole="button"
           accessibilityLabel={label}
           accessibilityHint="Toque em uma fatia da pizza para pintar ou limpar"
