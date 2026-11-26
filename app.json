@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "scheme": "fatiamatica",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "android": {
       "package": "br.edu.ifpi.fatiamatica",
       "adaptiveIcon": {
@@ -15,7 +14,8 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font"
+      "expo-font",
+      "expo-asset"
     ],
     "web": {
       "bundler": "metro",

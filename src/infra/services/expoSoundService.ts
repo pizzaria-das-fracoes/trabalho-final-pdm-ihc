@@ -1,5 +1,39 @@
+import { Platform } from "react-native";
 import * as Haptics from "expo-haptics";
 import type { ISoundService, SoundEffect } from "@/model/services/iSoundService";
+
+let AudioModule: {
+  createAudioPlayer: ((source: unknown, options?: {
+    updateInterval?: number;
+    keepAudioSessionActive?: boolean;
+    preferredForwardBufferDuration?: number;
+    allowsExternalPlayback?: boolean;
+  }) => {
+    play(): void;
+    pause(): void;
+    replace(source: unknown): void;
+    remove(): void;
+    set volume(value: number);
+    get playing(): boolean;
+    get isLoaded(): boolean;
+  }) | null;
+  setAudioModeAsync: (mode: {
+    playsInSilentMode: boolean;
+    interruptionMode: "doNotMix" | "doNotMixPersistent" | "duckOthers" | "mixWithOthers";
+    interruptionModeAndroid?: "doNotMix" | "doNotMixPersistent" | "duckOthers" | "mixWithOthers";
+    allowsRecording?: boolean;
+    shouldPlayInBackground?: boolean;
+    shouldRouteThroughEarpiece?: boolean;
+    shouldRecordInBackground?: boolean;
+  }) => Promise<void> | null;
+} | null = null;
+
+try {
+  const mod = require("expo-audio");
+  AudioModule = mod.default ?? mod;
+} catch {
+  AudioModule = null;
+}
 
 type WebAudioContext = {
   state: string;
@@ -10,8 +44,35 @@ type WebAudioContext = {
   createGain: () => GainNode;
 };
 
+const popAsset = require("../../../assets/audio/pop.wav");
+const coinAsset = require("../../../assets/audio/coin.wav");
+const successAsset = require("../../../assets/audio/success.wav");
+const oopsAsset = require("../../../assets/audio/oops.wav");
+const fanfareAsset = require("../../../assets/audio/fanfare.wav");
+
+const assetMap: Record<SoundEffect, unknown> = {
+  pop: popAsset,
+  coin: coinAsset,
+  success: successAsset,
+  oops: oopsAsset,
+  fanfare: fanfareAsset,
+};
+
+type NativeAudioPlayer = {
+  play(): void;
+  pause(): void;
+  replace(source: unknown): void;
+  remove(): void;
+  set volume(value: number);
+  get playing(): boolean;
+  get isLoaded(): boolean;
+} & { seekTo?: (seconds: number) => Promise<void> };
+
 export class ExpoSoundService implements ISoundService {
   private cachedCtx: WebAudioContext | null = null;
+  private nativePlayers: Map<SoundEffect, NativeAudioPlayer> = new Map();
+  private nativeVolume = 1;
+  private audioModeInitialized = false;
 
   private getAudioContext(): WebAudioContext | null {
     if (typeof window === "undefined") return null;
@@ -29,8 +90,56 @@ export class ExpoSoundService implements ISoundService {
         void this.cachedCtx.resume().catch(() => {});
       }
       return this.cachedCtx;
-    } catch (_err: unknown) {
+    } catch {
       return null;
+    }
+  }
+
+  private async initAudioMode(): Promise<void> {
+    if (this.audioModeInitialized || !AudioModule?.setAudioModeAsync) return;
+    try {
+      await AudioModule.setAudioModeAsync({
+        playsInSilentMode: true,
+        interruptionMode: "mixWithOthers",
+        interruptionModeAndroid: "mixWithOthers",
+      });
+      this.audioModeInitialized = true;
+    } catch (err) {
+      // Temporary diagnostic logging: fail-safe keeps gameplay alive
+      console.warn("expoSoundService: falha ao setar audio mode", err);
+      this.audioModeInitialized = true;
+    }
+  }
+
+  private getNativePlayer(effect: SoundEffect): NativeAudioPlayer | null {
+    if (!AudioModule?.createAudioPlayer) return null;
+    let player = this.nativePlayers.get(effect);
+    if (!player) {
+      const asset = assetMap[effect] as unknown;
+      player = AudioModule.createAudioPlayer(asset, {
+        updateInterval: 500,
+        keepAudioSessionActive: false,
+        preferredForwardBufferDuration: 0,
+        allowsExternalPlayback: false,
+      });
+      player.volume = this.nativeVolume;
+      this.nativePlayers.set(effect, player);
+    }
+    return player;
+  }
+
+  private async playNativePlayer(effect: SoundEffect): Promise<boolean> {
+    const player = this.getNativePlayer(effect);
+    if (!player) return false;
+    try {
+      player.volume = this.nativeVolume;
+      await player.seekTo?.(0);
+      player.play();
+      return true;
+    } catch (err) {
+      // Temporary diagnostic logging: fail-safe keeps gameplay alive
+      console.warn("expoSoundService: falha ao preparar player nativo", effect, err);
+      return false;
     }
   }
 
@@ -44,8 +153,14 @@ export class ExpoSoundService implements ISoundService {
   ): void {
     const ctx = this.getAudioContext();
     if (!ctx) return;
-    if (ctx.state === "suspended") {
-      void ctx.resume().then(() => this.playTone(freqStart, freqEnd, durationSec, type, volume, delaySec)).catch(() => {});
+    if (ctx.state !== "running") {
+      void ctx.resume()
+        .then(() => {
+          if (ctx.state === "running") {
+            this.playTone(freqStart, freqEnd, durationSec, type, volume, delaySec);
+          }
+        })
+        .catch(() => {});
       return;
     }
     try {
@@ -66,7 +181,7 @@ export class ExpoSoundService implements ISoundService {
       gain.connect(ctx.destination);
       osc.start(start);
       osc.stop(start + durationSec + 0.02);
-    } catch (_err: unknown) {
+    } catch {
       // Graceful no-op when audio synthesis fails
     }
   }
@@ -74,7 +189,7 @@ export class ExpoSoundService implements ISoundService {
   private safeImpact(style: Haptics.ImpactFeedbackStyle): void {
     try {
       void Haptics.impactAsync(style).catch(() => {});
-    } catch (_err: unknown) {
+    } catch {
       // Graceful no-op when native haptics module is unavailable
     }
   }
@@ -82,13 +197,18 @@ export class ExpoSoundService implements ISoundService {
   private safeNotification(type: Haptics.NotificationFeedbackType): void {
     try {
       void Haptics.notificationAsync(type).catch(() => {});
-    } catch (_err: unknown) {
+    } catch {
       // Graceful no-op when native haptics module is unavailable
     }
   }
 
   play(effect: SoundEffect, enabled: boolean): void {
     if (!enabled) return;
+
+    if (Platform.OS !== "web" && AudioModule?.createAudioPlayer) {
+      void this.playNativePlayer(effect);
+      return;
+    }
 
     if (effect === "pop") {
       this.safeImpact(Haptics.ImpactFeedbackStyle.Light);
@@ -127,5 +247,23 @@ export class ExpoSoundService implements ISoundService {
     this.playTone(1046.5, 1046.5, 0.13, "sine", 0.15, 0.27);
     this.playTone(783.99, 783.99, 0.09, "triangle", 0.12, 0.41);
     this.playTone(1046.5, 1046.5, 0.26, "sine", 0.16, 0.5);
+  }
+
+  setNativeVolume(volume: number): void {
+    this.nativeVolume = Math.max(0, Math.min(1, volume));
+    for (const player of this.nativePlayers.values()) {
+      try {
+        player.volume = this.nativeVolume;
+      } catch {}
+    }
+  }
+
+  dispose(): void {
+    for (const player of this.nativePlayers.values()) {
+      try {
+        player.remove();
+      } catch {}
+    }
+    this.nativePlayers.clear();
   }
 }

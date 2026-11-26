@@ -1,0 +1,22 @@
+appId: br.edu.ifpi.fatiamatica
+---
+- launchApp
+- tapOn: "Entrar na Pizzaria"
+- tapOn: "Monte a Pizza"
+- assertVisible: "Pedido 1/4"
+- tapOn: "Entregar pizza!"
+- assertVisible: "Quase lá — tente outro caminho!"
+- tapOn: "Voltar para o Mapa"
+- tapOn: "Duelo de Pizzas"
+- assertVisible: "Duelo de Pizzas"
+- tapOn: "Conferir duelo"
+- assertVisible: "A resposta certa era"
+- tapOn: "Próximo duelo!"
+- tapOn: "Conferir duelo"
+- assertVisible: "A resposta certa era"
+- tapOn: "Voltar para o Mapa"
+- tapOn: "Fornada Equivalente"
+- assertVisible: "Fornada Equivalente"
+- tapOn: "Entregar pizza!"
+- assertVisible: "Quase lá — tente outro caminho!"
+- tapOn: "Voltar para o Mapa"

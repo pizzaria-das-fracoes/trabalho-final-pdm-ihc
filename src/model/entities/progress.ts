@@ -2,7 +2,6 @@ export type HatId = "none" | "chef" | "crown" | "stars" | "cap";
 export type ToppingId = "pepperoni" | "mushroom" | "olive" | "berry";
 export type TitleId = "aprendiz" | "velocista" | "cortador" | "mestre" | "lenda";
 export type ItemRarity = "comum" | "raro" | "epico" | "lendario";
-export type VoiceStyle = "fatinha" | "chef" | "turbo" | "narrador";
 
 export type Attempt = {
   questionId: string;
@@ -19,7 +18,6 @@ export type PlayerProfile = {
   streak: number;
   bestStreak: number;
   soundEnabled: boolean;
-  voiceStyle: VoiceStyle;
   equippedHat: HatId;
   equippedTopping: ToppingId;
   equippedTitle: TitleId;
@@ -38,7 +36,6 @@ export const DEFAULT_PROFILE: PlayerProfile = {
   streak: 0,
   bestStreak: 0,
   soundEnabled: true,
-  voiceStyle: "fatinha",
   equippedHat: "chef",
   equippedTopping: "pepperoni",
   equippedTitle: "aprendiz",

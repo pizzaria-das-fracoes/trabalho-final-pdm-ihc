@@ -8,3 +8,7 @@ coverage/
 
 expo-env.d.ts
 # @end expo-cli
+# Resultados de testes
+/test-results/
+/playwright-report/
+/coverage/

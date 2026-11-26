@@ -1,0 +1,18 @@
+appId: br.edu.ifpi.fatiamatica
+---
+- launchApp
+- tapOn: "Entrar na Pizzaria"
+- tapOn: "Monte a Pizza"
+- assertVisible: "Pedido 1/4"
+- tapOn: "Entregar pizza!"
+- tapOn: "Voltar para o Mapa"
+- tapOn: "Troféus"
+- assertVisible: "Sala de Troféus"
+- assertVisible: "0 acertos"
+- tapOn: "Estrelas por Mundo"
+- assertVisible: "Monte a Pizza"
+- tapOn: "Zerar progresso"
+- tapOn: "Confirmar"
+- assertVisible: "0 acertos"
+- tapOn: "Ligar sons do jogo"
+- assertVisible: "Som"
